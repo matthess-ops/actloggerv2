@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Timer;
+use App\Log;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TimerController extends Controller
 {
@@ -11,6 +14,14 @@ class TimerController extends Controller
     // works for all arrays but not for options that needs a seperate filter filterFixedOptionsForActive()
     // return array containing only active elements
     private function filterForActive(array $data){
+        $actives = array_filter($data, function($element){
+            if($element["active"] ==true){
+                return $element;
+            }
+
+        });
+
+        return $actives;
 
     }
 
@@ -24,14 +35,20 @@ class TimerController extends Controller
     // only needed for main_activities, sub_activities,experiments
     //return the orderd array
     private function orderForCount(array $data){
-
+        array_multisort(array_map(function($element) {
+            return $element['count'];
+        }, $data), SORT_DESC, $data);
+        return $data;
     }
 
     // order decending for score
     // only needed for scaled_activities
     // return the ordered array
     private function orderForScore(array $data){
-
+        array_multisort(array_map(function($element) {
+            return $element['score'];
+        }, $data), SORT_DESC, $data);
+        return $data;
     }
     // order for fixed activity in fixed_activites the options
     // array fo count.
@@ -45,6 +62,19 @@ class TimerController extends Controller
     // filter and order all the arrays with the order and filter functions in this file
     // return dashboard view with the data
     public function dashboard(){
+        $userID= Auth::id();
+        // error_log("user id =".$userID);
+        // error_log("timer.dashboard is called");
+        $timer = Timer::find($userID);
+        $logs = Log::where("user_id","=",$userID)->whereDate('start_time', Carbon::now())->get();
+        $mainActivities =$this->orderForCount( $this->filterForActive($timer->main_activities));
+        $subActivities=$this->orderForCount( $this->filterForActive($timer->sub_activities));
+        $fixedActivities=$timer->fixed_activities;
+        $scaledActivities=$this->orderForScore( $this->filterForActive($timer->scaled_activities));
+        $experiments =$this->orderForCount( $this->filterForActive($timer->experiments));
+        error_log(gettype($scaledActivities) . "ddddkak");
+
+        return view('timers.dashboard',compact('mainActivities'));
     }
 
     //Route::get('/config', 'TimerController@config') ->name('timer.config')->middleware('auth');
@@ -57,7 +87,8 @@ class TimerController extends Controller
 
     // return config view with data
     public function config(){
-
+        error_log("timer.dashboard is called");
+        return view('timers.config');
 
     }
 

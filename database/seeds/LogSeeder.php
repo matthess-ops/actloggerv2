@@ -30,7 +30,7 @@ class LogSeeder extends Seeder
                 $stopTime =$startTime->addMinutes(1);
 
                 DB::table('logs')->insert([
-                    'user_id' => "1",
+                    'user_id' => $userCount,
                     'start_time' => $startTime,
                     'stop_time' => $stopTime,
                     'created_at' => Carbon::now(),

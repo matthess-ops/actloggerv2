@@ -10,6 +10,7 @@ class LogController extends Controller
     // get all logs for user id;
     // return view with logs
     public function index(){
+        return view('logs.index');
 
     }
     // Route::get('/logs/{id}/edit', 'LogController@edit') ->name('log.edit')->middleware('auth');

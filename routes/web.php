@@ -16,35 +16,31 @@ use App\Timer;
 */
 
 Route::get('/', function () {
-    $timer = Timer::find(1);
-    // error_log(print_r($timer->main_activities,true));
-    foreach ($timer->main_activities as $item) {
-        error_log($item["id"]);
-        echo $item["id"];
+    return "test";
     }
-});
+);
 
 
 //Timer routes
 // route for dashboard tab
-Route::get('/dashboard', 'TimerController@dashboard') ->name('timer.dashboard')->middleware('auth');
+Route::get('/dashboard', 'TimerController@dashboard') ->name('timers.dashboard')->middleware('auth');
 // route for config tab
-Route::get('/config', 'TimerController@config') ->name('timer.config')->middleware('auth');
+Route::get('/config', 'TimerController@config') ->name('timers.config')->middleware('auth');
 // route for starting and stopping the timer
-Route::post('/stop', 'TimerController@startStop') ->name('timer.startstop')->middleware('auth');
+Route::post('/stop', 'TimerController@startStop') ->name('timers.startstop')->middleware('auth');
 //Log routes
 // route for the logs tabs
-Route::get('/logs', 'LogController@index') ->name('log.index')->middleware('auth');
-Route::get('/logs/{id}/edit', 'LogController@edit') ->name('log.edit')->middleware('auth');
-Route::put('/logs/{id}', 'LogController@update') ->name('log.update')->middleware('auth');
-Route::get('/logs/create', 'LogController@create') ->name('log.create')->middleware('auth');
-Route::post('/logs', 'LogController@store') ->name('log.store')->middleware('auth');
-Route::delete('/logs/{id}', 'LogController@delete') ->name('log.delete')->middleware('auth');
+Route::get('/logs', 'LogController@index') ->name('logs.index')->middleware('auth');
+Route::get('/logs/{id}/edit', 'LogController@edit') ->name('logs.edit')->middleware('auth');
+Route::put('/logs/{id}', 'LogController@update') ->name('logs.update')->middleware('auth');
+Route::get('/logs/create', 'LogController@create') ->name('logs.create')->middleware('auth');
+Route::post('/logs', 'LogController@store') ->name('logs.store')->middleware('auth');
+Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middleware('auth');
 
 //Post routes
 // route for the posts tab
-Route::get('/posts', 'PostController@index') ->name('post.index')->middleware('auth');
-Route::put('/posts/{id}', 'PostController@update') ->name('post.update')->middleware('auth');
+Route::get('/posts', 'PostController@index') ->name('posts.index')->middleware('auth');
+Route::put('/posts/{id}', 'PostController@update') ->name('posts.update')->middleware('auth');
 
 //main sub and scaled activities and experiments routes
 // since the arrays of main, sub, scaled activties and experiment have the same

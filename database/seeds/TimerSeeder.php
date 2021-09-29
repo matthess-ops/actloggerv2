@@ -17,9 +17,9 @@ class TimerSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'main_activities' => json_encode([
-            ["id" => "1", "name" => "main activity 1", "active" => false, "count" => 1],
+            ["id" => "1", "name" => "main activity 1", "active" => true, "count" => 1],
             ["id" => "2", "name" => "main activity 2", "active" => false, "count" => 2],
-            ["id" => "3", "name" => "main activity 3", "active" => false, "count" => 3],
+            ["id" => "3", "name" => "main activity 3", "active" => true, "count" => 3],
             ["id" => "4", "name" => "main activity 4", "active" => false, "count" => 4],
 
 

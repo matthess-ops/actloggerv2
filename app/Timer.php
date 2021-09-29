@@ -26,6 +26,7 @@ class Timer extends Model
         'sub_activities' => 'array',
         'fixed_activities' => 'array',
         'experiments' => 'array',
+        'scaled_activities' => 'array',
         'previous_log' => 'array',
         'selected_scaled_activities' => 'array',
         'selected_fixed_activities' => 'array',
