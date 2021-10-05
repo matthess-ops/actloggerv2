@@ -20,6 +20,7 @@ class Timer extends Model
         'selected_sub_activity',
         'selected_scaled_activities',
         'selected_fixed_activities',
+        'selected_experiment',
       ];
     protected $casts = [
         'main_activities' => 'array',

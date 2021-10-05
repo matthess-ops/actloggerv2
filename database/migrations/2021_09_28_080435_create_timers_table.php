@@ -30,6 +30,8 @@ class CreateTimersTable extends Migration
             $table->json("selected_scaled_activities");
             $table->json("selected_fixed_activities");
 
+            $table->string("selected_experiment");
+
 
 
 

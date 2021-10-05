@@ -1,0 +1,2 @@
+- dont need selected arrays for scaled and fixed. The selected option id can just be added to
+fixed activities array. While the scaled_activities already has a selected array
