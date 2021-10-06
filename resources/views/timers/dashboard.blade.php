@@ -1,7 +1,11 @@
 @extends('layouts.navbar')
 
 @section('content')
-    <form method="post" action="">
+
+<form action="{{ route('timer.startstop') }}" method="POST">
+    @csrf
+
+    {{-- <form method="post" action="{{ route('timers.startstop') }}"> --}}
 
         <div class="form-group row d-flex justify-content-between">
             <label for="main_activities">Main Activities:</label>
@@ -95,6 +99,55 @@
 
         </div>
 
+
+        <div>
+            <label for="fixed_activities">Fixed Activities</label>
+
+            @foreach ($timer->fixed_activities as $fixedActivity)
+
+            @php
+            $selected_id= 0;
+            foreach($timer->selected_fixed_activities as $selected_fixed_activity){
+                if($fixedActivity["id"] == $selected_fixed_activity["id"]){
+                    $selected_id =$selected_fixed_activity["id"];
+
+                }
+            }
+            @endphp
+
+            <div class="form-group row d-flex justify-content-between">
+                <label for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $fixedActivity["name"] }}</label>
+                <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control" name="fixed_activity_id&{{ $fixedActivity['id'] }}">
+
+                    @foreach ($fixedActivity["options"] as $fixedActivityOption)
+
+                        @if ($fixedActivityOption['id'] == $selected_id)
+                            <option value="{{ $fixedActivityOption['id'] }}" selected>{{ $fixedActivityOption['name'] }} </option>
+
+                        @else
+                            <option value="{{ $fixedActivityOption['id'] }}">{{ $fixedActivityOption['name'] }}</option>
+
+                        @endif
+
+                    @endforeach
+                </select>
+            </div>
+
+            @endforeach
+
+
+
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
     </form>
+    {{-- {{ $timer->selected_fixed_activities }} --}}
+
+    {{ print_r($timer['main_activities'][1]['id'] ,true)}}
+
+    {{ print_r($timer->main_activities[0]->id ,true)}}
+
 
 @endsection

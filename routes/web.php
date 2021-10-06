@@ -18,7 +18,7 @@ use App\Timer;
 Route::get('/', function () {
     return "test";
     }
-);
+)->name('test')->middleware('auth');
 
 
 //Timer routes
@@ -27,7 +27,7 @@ Route::get('/dashboard', 'TimerController@dashboard') ->name('timers.dashboard')
 // route for config tab
 Route::get('/config', 'TimerController@config') ->name('timers.config')->middleware('auth');
 // route for starting and stopping the timer
-Route::post('/stop', 'TimerController@startStop') ->name('timers.startstop')->middleware('auth');
+Route::post('/stopstart', 'TimerController@startStop') ->name('timer.startstop')->middleware('auth');;
 //Log routes
 // route for the logs tabs
 Route::get('/logs', 'LogController@index') ->name('logs.index')->middleware('auth');

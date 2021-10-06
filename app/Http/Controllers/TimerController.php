@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Timer;
 use App\Log;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,6 +107,7 @@ class TimerController extends Controller
         $timer->experiments = $this->orderForCount($this->filterForActive($timer->experiments));
 
 
+
         return view('timers.dashboard',compact('timer'),compact('logs'),compact('mainActivities'),compact('subActivities'),compact('fixedActivities'), compact('scaledActivities'),compact('experiments'));
     }
 
@@ -120,7 +122,6 @@ class TimerController extends Controller
     // return config view with data
     public function config()
     {
-        error_log("timer.dashboard is called");
         return view('timers.config');
     }
 
@@ -151,5 +152,21 @@ class TimerController extends Controller
     // redirect to index
     public function startStop(Request $request)
     {
+        $userID = Auth::id();
+        $timer = Timer::find($userID);
+        if($timer->timer_running ==true){
+            $timer->timer_running =false;
+            $newLog = new Log;
+
+
+
+        }
+        else{
+            $timer->timer_running =true;
+
+        }
+        // $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
+        return redirect()->route('timers.dashboard');
+
     }
 }
