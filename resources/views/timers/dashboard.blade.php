@@ -2,10 +2,10 @@
 
 @section('content')
 
-<form action="{{ route('timer.startstop') }}" method="POST">
-    @csrf
+    <form action="{{ route('timer.startstop') }}" method="POST">
+        @csrf
 
-    {{-- <form method="post" action="{{ route('timers.startstop') }}"> --}}
+        {{-- <form method="post" action="{{ route('timers.startstop') }}"> --}}
 
         <div class="form-group row d-flex justify-content-between">
             <label for="main_activities">Main Activities:</label>
@@ -44,7 +44,7 @@
 
         <div class="form-group row d-flex justify-content-between">
             <label for="experiments">Experiments:</label>
-            <select id="experiments" class="form-control" name="sub_activity">
+            <select id="experiments" class="form-control" name="experiment">
                 @foreach ($timer->experiments as $experiment)
 
                     @if ($experiment['id'] == $timer->selected_experiment)
@@ -64,28 +64,26 @@
             <label for="scaled_activities">Scaled Activities</label>
 
             @foreach ($timer->scaled_activities as $scaledActivity)
-            @php
-            // determine the selected score for this scaledActivity
-            //made a stupid mistake add to
-                $selected_score= 1;
-                foreach($timer->selected_scaled_activities as $selected_scaled_activity){
-                    if($selected_scaled_activity["id"] == $scaledActivity["id"]){
-                        $selected_score = $selected_scaled_activity["score"];
-
+                @php
+                    // determine the selected score for this scaledActivity
+                    //made a stupid mistake add to
+                    $selected_score = 1;
+                    foreach ($timer->selected_scaled_activities as $selected_scaled_activity) {
+                        if ($selected_scaled_activity['id'] == $scaledActivity['id']) {
+                            $selected_score = $selected_scaled_activity['score'];
+                        }
                     }
-                }
 
-
-            @endphp
+                @endphp
                 <div class="form-group row d-flex justify-content-between">
                     <label for="scaled_activity_id&{{ $scaledActivity['id'] }}">{{ $scaledActivity['name'] }}:</label>
-                    <select id="experiments" class="form-control" name="scaled_activity_id&{{ $scaledActivity['id'] }}">
+                    <select id="scaled_activity_id&{{ $scaledActivity['id'] }}" class="form-control" name="scaled_activity_id&{{ $scaledActivity['id'] }}">
                         @for ($i = 0; $i < 11; $i++)
 
-                            @if ($selected_score == $i )
-                            <option value="{{ $i }}" selected>{{ $i }} </option>
+                            @if ($selected_score == $i)
+                                <option value="{{ $i }}" selected>{{ $i }} </option>
                             @else
-                            <option value="{{ $i }}">{{ $i}}</option>
+                                <option value="{{ $i }}">{{ $i }}</option>
 
                             @endif
                         @endfor
@@ -105,33 +103,35 @@
 
             @foreach ($timer->fixed_activities as $fixedActivity)
 
-            @php
-            $selected_id= 0;
-            foreach($timer->selected_fixed_activities as $selected_fixed_activity){
-                if($fixedActivity["id"] == $selected_fixed_activity["id"]){
-                    $selected_id =$selected_fixed_activity["id"];
+                @php
+                    $selected_id = 0;
+                    foreach ($timer->selected_fixed_activities as $selected_fixed_activity) {
+                        if ($fixedActivity['id'] == $selected_fixed_activity['id']) {
+                            $selected_id = $selected_fixed_activity['id'];
+                        }
+                    }
+                @endphp
 
-                }
-            }
-            @endphp
+                <div class="form-group row d-flex justify-content-between">
+                    <label for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $fixedActivity['name'] }}</label>
+                    <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control"
+                        name="fixed_activity_id&{{ $fixedActivity['id'] }}">
 
-            <div class="form-group row d-flex justify-content-between">
-                <label for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $fixedActivity["name"] }}</label>
-                <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control" name="fixed_activity_id&{{ $fixedActivity['id'] }}">
+                        @foreach ($fixedActivity['options'] as $fixedActivityOption)
 
-                    @foreach ($fixedActivity["options"] as $fixedActivityOption)
+                            @if ($fixedActivityOption['id'] == $selected_id)
+                                <option value="{{ $fixedActivityOption['id'] }}" selected>
+                                    {{ $fixedActivityOption['name'] }} </option>
 
-                        @if ($fixedActivityOption['id'] == $selected_id)
-                            <option value="{{ $fixedActivityOption['id'] }}" selected>{{ $fixedActivityOption['name'] }} </option>
+                            @else
+                                <option value="{{ $fixedActivityOption['id'] }}">{{ $fixedActivityOption['name'] }}
+                                </option>
 
-                        @else
-                            <option value="{{ $fixedActivityOption['id'] }}">{{ $fixedActivityOption['name'] }}</option>
+                            @endif
 
-                        @endif
-
-                    @endforeach
-                </select>
-            </div>
+                        @endforeach
+                    </select>
+                </div>
 
             @endforeach
 
@@ -143,11 +143,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
 
     </form>
-    {{-- {{ $timer->selected_fixed_activities }} --}}
 
-    {{ print_r($timer['main_activities'][1]['id'] ,true)}}
-
-    {{ print_r($timer->main_activities[0]->id ,true)}}
 
 
 @endsection

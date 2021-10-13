@@ -39,6 +39,8 @@ class LogSeeder extends Seeder
                     'log' => json_encode([
                         "main_activity_id"=> "2",
                         "sub_activity_id"=> "2" ,
+                        "experiment_id"=>"1",
+
                         "scaled_activities_ids"=>[
                           ["id"=>"1","score"=>1],
                           ["id"=>"2","score"=>2],

@@ -21,7 +21,7 @@ class TimerSeeder extends Seeder
             ["id" => "2", "name" => "main activity 2", "active" => false, "count" => 2],
             ["id" => "3", "name" => "main activity 3", "active" => true, "count" => 3],
             ["id" => "4", "name" => "main activity 4", "active" => false, "count" => 4],
-            ["id" => "1", "name" => "experiment 1", "active" => true, "count" => 6],
+
 
 
 
@@ -81,6 +81,7 @@ class TimerSeeder extends Seeder
             'previous_log' => json_encode([
                 "main_activity_id"=> "2",
                 "sub_activity_id"=> "2" ,
+                "experiment_id"=>"1",
                 "scaled_activities_ids"=>[
                   ["id"=>"1","score"=>1],
                   ["id"=>"2","score"=>2],
