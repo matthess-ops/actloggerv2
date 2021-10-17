@@ -66,7 +66,7 @@ class TimerController extends Controller
         return $data;
     }
     // order for fixed activity in fixed_activites the options
-    // array fo count.
+    // array for count.
     //return the orderd array
     private function orderFixedActivitesOptionsForCount(array $fixedActivities)
     {
@@ -87,8 +87,6 @@ class TimerController extends Controller
     public function dashboard()
     {
         $userID = Auth::id();
-        // error_log("user id =".$userID);
-        // error_log("timer.dashboard is called");
         $timer = Timer::find($userID);
         $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
 
@@ -107,7 +105,7 @@ class TimerController extends Controller
 
 
 
-        return view('timers.dashboard', compact('timer'), compact('logs'), compact('mainActivities'), compact('subActivities'), compact('fixedActivities'), compact('scaledActivities'), compact('experiments'));
+        return view('timers.dashboard', compact('timer'), compact('logs'));
     }
 
     //Route::get('/config', 'TimerController@config') ->name('timer.config')->middleware('auth');
@@ -121,7 +119,13 @@ class TimerController extends Controller
     // return config view with data
     public function config()
     {
-        return view('timers.config');
+        $timer = Timer::find(Auth::id());
+        $timer->main_activities = $this->orderForCount($this->filterForActive($timer->main_activities));
+        $timer->sub_activities = $this->orderForCount($this->filterForActive($timer->sub_activities));
+        $timer->fixed_activities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
+        $timer->experiments = $this->orderForCount($this->filterForActive($timer->experiments));
+        return view('timers.config', compact('timer'));
     }
 
     // increase the count for array id;
@@ -130,26 +134,46 @@ class TimerController extends Controller
     // [{"id":"1","name":"main activity 1","active":true,"count":1},{"id":"2","name":"main activity 2","active":false,"count":2},{"id":"3","name":"main activity 3","active":true,"count":3},{"id":"4","name":"main activity 4","active":false,"count":4},{"id":"1","name":"experiment 1","active":true,"count":6}]
     private function increaseCount(array $arrayData, string $id)
     {
-        $formattedArray = [];
-        foreach ($arrayData as $element) {
-            if($element["id"] ==  $id){
-
-                array_push($formattedArray, ["id"=>$element["id"], "count"=>$element["count"] +1] );
-
-
+        foreach ($arrayData as &$element) {
+            if ($element["id"] ==  $id) {
+                $element["count"] = $element["count"] + 1;
             }
-
         }
 
 
-        return $formattedArray;
-
+        return $arrayData;
     }
     //$ids  = [[id,optionId]]
     // for all id in ids update the count of the corresponding data option id.
     //return the updated array
-    private function increaseOptionCount(array $data, array $ids)
+    //data = [{"id":"1","name":"fixed activity 1","active":true,"options":[{"id":"1","name":"fixed activity 1 option 1","active":true,"count":1},{"id":"2","name":"fixed activity 1 option 2","active":false,"count":2},{"id":"3","name":"fixed activity 1 option 3","active":true,"count":3},{"id":"4","name":"fixed activity 1 option 4","active":false,"count":4}]},{"id":"2","name":"fixed activity 2","active":false,"options":[{"id":"1","name":"fixed activity 2 option 1","active":false,"count":1},{"id":"2","name":"fixed activity 2 option 2","active":true,"count":2},{"id":"3","name":"fixed activity 2 option 3","active":false,"count":3},{"id":"4","name":"fixed activity 2 option 4","active":true,"count":4}]},{"id":"3","name":"fixed activity 3","active":true,"options":[{"id":"1","name":"fixed activity 3 option 1","active":false,"count":1},{"id":"2","name":"fixed activity 3 option 2","active":true,"count":2},{"id":"3","name":"fixed activity 3 option 3","active":false,"count":3},{"id":"4","name":"fixed activity 3 option 4","active":true,"count":4}]}]
+
+    private function increaseOptionCount(array $data, $request)
     {
+
+        $fixedActvitiesOptionsIds = [];
+        foreach ($request->all() as $key => $value) {
+            $splittedKey = explode("&", $key); // scaled_activity_id&3 explods into scaled_activity_id and 3
+            if ($splittedKey[0] == "fixed_activity_id") {
+                array_push($fixedActvitiesOptionsIds, ["id" => $splittedKey[1], "optionId" => $value]);
+            }
+        }
+
+        foreach ($data as &$element) {
+            foreach ($fixedActvitiesOptionsIds as &$fixedIdOptionId) {
+                if ($element["id"] == $fixedIdOptionId["id"]) {
+                    foreach ($element["options"] as &$optionId) {
+                        if ($optionId["id"] == $fixedIdOptionId["optionId"]) {
+                            $optionId["count"] =  $optionId["count"] + 1;
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return $data;
     }
 
 
@@ -215,12 +239,11 @@ class TimerController extends Controller
             }
         }
 
-      return $formattedArray;
-
+        return $formattedArray;
     }
 
 
-   //for user $timer get selected_fixed_activities column then for each fixed activity id update the option_id with
+    //for user $timer get selected_fixed_activities column then for each fixed activity id update the option_id with
     // the corresponding request value.
 
     // return
@@ -229,7 +252,8 @@ class TimerController extends Controller
     //     //     ["id"=>"2","option_id"=>2],
     //     //     ["id"=>"3","option_id"=>3],
     //     // ]
-    private function formatSelectedFixedActivities($request, $timer){
+    private function formatSelectedFixedActivities($request, $timer)
+    {
         $formattedArray = [];
 
         foreach ($timer->selected_fixed_activities as $element) {
@@ -244,8 +268,7 @@ class TimerController extends Controller
             }
         }
 
-      return $formattedArray;
-
+        return $formattedArray;
     }
 
     //Route::post('/stop', 'TimerController@startStop') ->name('timer.startstop')->middleware('auth');
@@ -261,11 +284,12 @@ class TimerController extends Controller
     // redirect to index
     public function startStop(Request $request)
     {
-        $userID = Auth::id();
-        $timer = Timer::find($userID);
-        error_log(print_r($request->all(), true));
-        error_log($request->main_activity);
+        $timer = Timer::find(Auth::id());
+        //timer is running stop timer
         if ($timer->timer_running == true) {
+            $timer->timer_running = false; // put to true for testing purposes
+            $timer->save();
+
             $newLog = new Log;
             $newLog->user_id = Auth::id();
             $newLog->start_time = Carbon::parse($timer->start_time);
@@ -273,7 +297,15 @@ class TimerController extends Controller
             $newLog->created_at = Carbon::now();
             $newLog->updated_at = Carbon::now();
             $newLog->elapsed_time = Carbon::parse($timer->start_time)->diffInSeconds($newLog->stop_time);
-            $newLog->log =   [
+            $newLog->log = $timer->previous_log;
+            $newLog->save();
+
+
+
+
+        } else {
+            $timer->timer_running = true;
+            $timer->previous_log =   [
                 "main_activity_id" => $request->main_activity,
                 "sub_activity_id" => $request->sub_activity,
                 "scaled_activities_ids" => $this->formatRequestScaledActivities($request),
@@ -282,9 +314,10 @@ class TimerController extends Controller
 
 
             ];
-            $newLog->save();
 
-            $timer->timer_running = false;
+            $timer->start_time = Carbon::now();
+            $timer->created_at = Carbon::now();
+            $timer->updated_at = Carbon::now();
             $timer->selected_main_activity = $request->main_activity;
             $timer->selected_sub_activity = $request->sub_activity;
             $timer->selected_experiment = $request->experiment;
@@ -293,37 +326,15 @@ class TimerController extends Controller
             $timer->selected_fixed_activities = $this->formatSelectedFixedActivities($request, $timer);
 
             $timer->main_activities = $this->increaseCount($timer->main_activities, $request->main_activity);
-            // $timer->sub_activities = $this->increaseCount($timer->sub_activities, $request->sub_activity);
+            $timer->sub_activities = $this->increaseCount($timer->sub_activities, $request->sub_activity);
 
-            // $timer->experiments = $this->increaseCount($timer->experiments, $request->experiment);
-
-            error_log(print_r($timer->main_activities,true));
-
-            // [{"id":"1","name":"main activity 1","active":true,"count":1},{"id":"2","name":"main activity 2","active":false,"count":2},{"id":"3","name":"main activity 3","active":true,"count":3},{"id":"4","name":"main activity 4","active":false,"count":4},{"id":"1","name":"experiment 1","active":true,"count":6}]
-            // error_log(print_r($timer->selected_fixed_activities,true));
-
-
-
-            // 'selected_main_activity' => '1',
-            // 'selected_sub_activity' => '1',
-            // 'selected_experiment'=>'1',
-            // 'selected_scaled_activities' => json_encode([
-            //     ["id"=>"1","score"=>1],
-            //     ["id"=>"2","score"=>2],
-            //     ["id"=>"3","score"=>3],
-            // ]),
-            // 'selected_fixed_activities' => json_encode([
-            //     ["id"=>"1","option_id"=>1],
-            //     ["id"=>"2","option_id"=>2],
-            //     ["id"=>"3","option_id"=>3],
-
-            // ]),
-
-
-        } else {
-            $timer->timer_running = true;
+            $timer->experiments = $this->increaseCount($timer->experiments, $request->experiment);
+            $timer->fixed_activities = $this->increaseOptionCount($timer->fixed_activities, $request);
+            $timer->save();
         }
         // $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
         return redirect()->route('timers.dashboard');
     }
 }
+
+// {"main_activity_id":"2","sub_activity_id":"2","experiment_id":"1","scaled_activities_ids":[{"id":"1","score":1},{"id":"2","score":2},{"id":"3","score":3},{"id":"4","score":4}],"fixed_activities_ids":[{"id":"1","option_id":1},{"id":"2","option_id":2},{"id":"3","option_id":3}]}

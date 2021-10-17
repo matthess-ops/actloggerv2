@@ -2,6 +2,15 @@
 
 @section('content')
 
+    <script src="{{ asset('js/dashboard.js') }}" defer></script>
+    <script>
+        const startTime = @json($timer->start_time);
+        const timerRunning = @json($timer->timer_running);
+
+    </script>
+
+    <h3 id = "timerH3">00:00</h3>
+
     <form action="{{ route('timer.startstop') }}" method="POST">
         @csrf
 
@@ -107,11 +116,11 @@
                     $selected_id = 0;
                     foreach ($timer->selected_fixed_activities as $selected_fixed_activity) {
                         if ($fixedActivity['id'] == $selected_fixed_activity['id']) {
-                            $selected_id = $selected_fixed_activity['id'];
+                            $selected_id = $selected_fixed_activity['option_id'];
                         }
                     }
                 @endphp
-
+                {{"selected id should be ".$selected_id}}
                 <div class="form-group row d-flex justify-content-between">
                     <label for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $fixedActivity['name'] }}</label>
                     <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control"
@@ -139,8 +148,13 @@
 
 
         </div>
+        @if ($timer->timer_running == true)
+        <button type="submit" class="btn btn-primary">Stop timer</button>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        @else
+        <button type="submit" class="btn btn-primary">Start timer</button>
+
+        @endif
 
     </form>
 

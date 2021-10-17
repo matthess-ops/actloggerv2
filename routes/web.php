@@ -50,6 +50,15 @@ Route::put('/posts/{id}', 'PostController@update') ->name('posts.update')->middl
 Route::put('/mainsubscaleexps/{id}/{group}', 'MainSubScaledExperimentController@update') ->name('MainSubScaledExperiment.update')->middleware('auth');
 Route::post('/mainsubscaleexps/{group}', 'MainSubScaledExperimentController@store') ->name('MainSubScaledExperiment.store')->middleware('auth');
 Route::delete('/mainsubscaleexps/{id}/{group}', 'MainSubScaledExperimentController@delete') ->name('MainSubScaledExperiment.delete')->middleware('auth');
+Route::post('/mainsubscaleexps', 'MainSubScaledExperimentController@crud') ->name('MainSubScaledExperiment.crud')->middleware('auth');
+
+Route::post('/configfixed', 'MainSubScaledExperimentController@fixedCrud') ->name('MainSubScaledExperiment.fixedCrud')->middleware('auth');
+
+// Route::post('/lefuck', function () {
+//     return "test";
+//     }
+// )->name('MainSubScaledExperiment.fixedCrud');
+
 
 //fixed activities and fixed activities options routes
 // update the fixed activity name

@@ -50006,8 +50006,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\matth\Desktop\act_logger_v2\actloggerv2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\matth\Desktop\act_logger_v2\actloggerv2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\mattt\Desktop\laravel oefenen\activiteiten_logger_v2\activiteiten-logger-v2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\mattt\Desktop\laravel oefenen\activiteiten_logger_v2\activiteiten-logger-v2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
