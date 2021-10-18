@@ -160,19 +160,113 @@ class MainSubScaledExperimentController extends Controller
                 break;
             case 'delete_group':
                 error_log('delete_group');
+                foreach ($fixedActivities as &$fixedActivity) {
+                    if ($fixedActivity["id"] == $fixedGroupId) {
+                        $fixedActivity["active"] = false;
+                    }
+                }
                 break;
             case 'update_option':
                 error_log('update_option');
+
+                $validatedData = $request->validate([
+                    'new_value' => 'required',
+                    'selected_option_id' => 'required',
+                    'fixed_group_id' => 'required',
+
+                ]);
+
+                // [{"id":"1","name":"update","active":false,"options":[{"id":"1","name":"fixed activity 1 option 1","active":true,"count":1},{"id":"2","name":"fixed activity 1 option 2","active":false,"count":2},{"id":"3","name":"fixed activity 1 option 3","active":true,"count":3},{"id":"4","name":"fixed activity 1 option 4","active":false,"count":4}]},{"id":"2","name":"fixed activity 2","active":false,"options":[{"id":"1","name":"fixed activity 2 option 1","active":false,"count":1},{"id":"2","name":"fixed activity 2 option 2","active":true,"count":2},{"id":"3","name":"fixed activity 2 option 3","active":false,"count":3},{"id":"4","name":"fixed activity 2 option 4","active":true,"count":4}]},{"id":"3","name":"fixed activity 3","active":true,"options":[{"id":"1","name":"fixed activity 3 option 1","active":false,"count":1},{"id":"2","name":"fixed activity 3 option 2","active":true,"count":2},{"id":"3","name":"fixed activity 3 option 3","active":false,"count":3},{"id":"4","name":"fixed activity 3 option 4","active":true,"count":4}]}]
+                foreach ($fixedActivities as &$fixedActivity) {
+                    if ($fixedActivity["id"] == $fixedGroupId) {
+
+                        foreach($fixedActivity["options"] as &$option){
+                            if($option['id'] == $selectedOptionId )
+                            {
+                                $option["name"] = $newValue;
+                            }
+                        }
+                    }
+                }
+
                 break;
             case 'delete_option':
                 error_log('delete_option');
+
+                $validatedData = $request->validate([
+                    'selected_option_id' => 'required',
+                    'fixed_group_id' => 'required',
+
+                ]);
+                foreach ($fixedActivities as &$fixedActivity) {
+                    if ($fixedActivity["id"] == $fixedGroupId) {
+
+                        foreach($fixedActivity["options"] as &$option){
+                            if($option['id'] == $selectedOptionId )
+                            {
+                                $option["active"] = false;
+                            }
+                        }
+                    }
+                }
                 break;
+                // frist check if option is not deactivated. If so activate option. Else create new option
+                case 'add_option':
+                    error_log('add_option');
+
+                    $validatedData = $request->validate([
+                        'selected_option_id' => 'required',
+                        'fixed_group_id' => 'required',
+                        'new_value' => 'required',
+
+                    ]);
+                    $optionDeactivated = false;
+                    // check if option is not deactvated
+                    foreach ($fixedActivities as &$fixedActivity) {
+                        if ($fixedActivity["id"] == $fixedGroupId) {
+                            foreach($fixedActivity["options"] as &$option){
+                                if($option['name'] == $newValue )
+                                {
+                                    $option["active"] = true;
+                                    $optionDeactivated = true;
+                                }
+                            }
+                        }
+                    }
+                    // error_log(" optionDeactivated = ",$optionDeactivated);
+                    if($optionDeactivated == false){
+                        foreach ($fixedActivities as &$fixedActivity) {
+                            if ($fixedActivity["id"] == $fixedGroupId) {
+                                $newOption =["id" => $this-> nextId($fixedActivity["options"]),
+                                "name" => $newValue,
+                                "active" => true,
+                                "count" => 1];
+                            }
+                        }
+
+                    }
+                    break;
         }
         $timer->fixed_activities = $fixedActivities;
         $timer->save();
 
         return redirect(route('timers.config'));
     }
+    // add whole new fixed activity group with options
+    public function newFixedGroup(Request $request){
+        $validatedData = $request->validate([
+            'fixed_group_name' => 'required',
+            'fixed_option_1 ' => 'required',
+
+        ]);
+        $fixedGroupName= $request->input('fixed_group_name');
+        foreach ($request->all() as $key => $value) {
+
+            error_log("key ".$key);
+        }
+    }
+
+
 
 
 

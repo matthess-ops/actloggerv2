@@ -53,6 +53,8 @@ Route::delete('/mainsubscaleexps/{id}/{group}', 'MainSubScaledExperimentControll
 Route::post('/mainsubscaleexps', 'MainSubScaledExperimentController@crud') ->name('MainSubScaledExperiment.crud')->middleware('auth');
 
 Route::post('/configfixed', 'MainSubScaledExperimentController@fixedCrud') ->name('MainSubScaledExperiment.fixedCrud')->middleware('auth');
+Route::post('/newfixedgroup', 'MainSubScaledExperimentController@newFixedGroup') ->name('MainSubScaledExperiment.newFixedGroup')->middleware('auth');
+
 
 // Route::post('/lefuck', function () {
 //     return "test";

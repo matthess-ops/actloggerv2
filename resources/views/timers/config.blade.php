@@ -207,9 +207,107 @@
         <button class="btn btn-primary" type="submit" name="action" value="delete_group">Delete group and options</button>
         <button class="btn btn-primary" type="submit" name="action" value="update_option">Update option name</button>
         <button class="btn btn-primary" type="submit" name="action" value="delete_option">Delete option</button>
+        <button class="btn btn-primary" type="submit" name="action" value="add_option">Add option</button>
 
         </form>
     @endforeach
+    <h3>add new fixed activity group with options</h3>
+
+    <form action="{{ route('MainSubScaledExperiment.newFixedGroup') }}" method="POST">
+        @csrf
+        <div class="form-group">
+            <label for="my-input">new fixed group name</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_group_name">
+            @error('fixed_group_name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
+        </div>
+        <div class="form-group">
+            <label for="my-input">new option 1</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_1">
+            @error('fixed_option_1')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 2</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_2">
+            @error('fixed_option_2')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 3</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_3">
+            @error('fixed_option_3')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 4</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_4">
+            @error('fixed_option_4')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 5</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_5">
+            @error('fixed_option_5')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 6</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_6">
+            @error('fixed_option_6')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 7</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_7">
+            @error('fixed_option_7')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label for="my-input">new option 8</label>
+            <input id="my-input" class="form-control" type="text" name="fixed_option_8">
+            @error('fixed_option_1')
+                    <div class="alert alert-danger">{{ $message }}</div>
+
+            @enderror
+
+        </div>
+
+        <button class="btn btn-primary" type="submit" >Add group and options</button>
+
+        </form>
+
+
 
 
     @if ($errors->any())

@@ -21699,15 +21699,15 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 
-var secondElapsed = moment__WEBPACK_IMPORTED_MODULE_0___default()().subtract(moment__WEBPACK_IMPORTED_MODULE_0___default()().parseZone().utcOffset(), 'minutes').unix() - moment__WEBPACK_IMPORTED_MODULE_0___default()(startTime).unix();
+var secondElapsed = moment__WEBPACK_IMPORTED_MODULE_1___default()().subtract(moment__WEBPACK_IMPORTED_MODULE_1___default()().parseZone().utcOffset(), 'minutes').unix() - moment__WEBPACK_IMPORTED_MODULE_1___default()(startTime).unix();
 
 if (timerRunning == true) {
   setInterval(function () {
     secondElapsed = secondElapsed + 1;
-    var formatted = moment__WEBPACK_IMPORTED_MODULE_0___default.a.utc(secondElapsed * 1000).format('HH:mm:ss');
+    var formatted = moment__WEBPACK_IMPORTED_MODULE_1___default.a.utc(secondElapsed * 1000).format('HH:mm:ss');
     document.getElementById("timerH3").innerText = formatted;
   }, 1000);
 } // const startTimeDateTime = Date.parse(startTime);
@@ -21726,7 +21726,7 @@ if (timerRunning == true) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\mattt\Desktop\laravel oefenen\activiteiten_logger_v2\activiteiten-logger-v2\resources\js\dashboard.js */"./resources/js/dashboard.js");
+module.exports = __webpack_require__(/*! C:\Users\matth\Desktop\act_logger_v2\actloggerv2\resources\js\dashboard.js */"./resources/js/dashboard.js");
 
 
 /***/ })
