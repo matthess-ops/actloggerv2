@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Timer;
 use PDO;
 use Illuminate\Support\Facades\Auth;
-
+use PhpParser\Node\Stmt\Foreach_;
 
 class MainSubScaledExperimentController extends Controller
 {
@@ -235,12 +235,14 @@ class MainSubScaledExperimentController extends Controller
                     }
                     // error_log(" optionDeactivated = ",$optionDeactivated);
                     if($optionDeactivated == false){
+                        error_log("add the new optoin");
                         foreach ($fixedActivities as &$fixedActivity) {
                             if ($fixedActivity["id"] == $fixedGroupId) {
                                 $newOption =["id" => $this-> nextId($fixedActivity["options"]),
                                 "name" => $newValue,
                                 "active" => true,
                                 "count" => 1];
+                                array_push($fixedActivity["options"],$newOption);
                             }
                         }
 
@@ -253,17 +255,66 @@ class MainSubScaledExperimentController extends Controller
         return redirect(route('timers.config'));
     }
     // add whole new fixed activity group with options
+    // check if fixed_group_name does not exist already
     public function newFixedGroup(Request $request){
+        error_log(print_r($request->all(),true));
+        error_log($request->input('fixed_option_1'));
         $validatedData = $request->validate([
             'fixed_group_name' => 'required',
-            'fixed_option_1 ' => 'required',
+            'fixed_option_1' => 'required',
 
         ]);
-        $fixedGroupName= $request->input('fixed_group_name');
-        foreach ($request->all() as $key => $value) {
 
-            error_log("key ".$key);
+        /// check if fixed group name does not exist already
+
+        $timer = Timer::find(Auth::id());
+        $fixedActivities = $timer["fixed_activities"];
+        $fixedActivityNameAlreadyExists = false;
+        foreach ($fixedActivities as $fixedActivity) {
+            if($fixedActivity["name"] == $request->input('fixed_group_name')){
+                $fixedActivityNameAlreadyExists = true;
+            }
         }
+
+        if($fixedActivityNameAlreadyExists ==true){
+
+            return redirect()->back()
+            ->withErrors(["new_fixed_activity_exists"=> 'new fixed activity group name already exists']);;
+
+
+        }
+
+
+
+        $newfixedActivityEntry = ["id" => "dummy", "name" => "dummy", "active" => true, "options"=>
+        [
+            // ["id" => "1", "name" => "fixed activity 1 option 1", "active" => true, "count" => 1],
+            // ["id" => "2", "name" => "fixed activity 1 option 2", "active" => false, "count" => 2],
+            // ["id" => "3", "name" => "fixed activity 1 option 3", "active" => true, "count" => 3],
+            // ["id" => "4", "name" => "fixed activity 1 option 4", "active" => false, "count" => 4],
+
+        ]];
+
+        $fixedGroupName= $request->input('fixed_group_name');
+        $newfixedActivityEntry["id"] =  $this->nextId($fixedActivities);
+        $newfixedActivityEntry["name"] =  $request->input('fixed_group_name');
+        $optionCount = 0;
+        foreach ($request->except(['_token','fixed_group_name']) as $key => $value) {
+            if(!empty($value)){
+                $optionCount =$optionCount+1;
+                error_log("not emptyu key ".$key." ".$value);
+                $optionArray = ["id" => (string)$optionCount, "name" => $value, "active" => true, "count" => 1];
+                array_push($newfixedActivityEntry['options'],$optionArray );
+            }
+
+        }
+
+        array_push($fixedActivities,$newfixedActivityEntry);
+        error_log(print_r($fixedActivities,true) );
+        // error_log(print_r($fixedActivities,true));
+
+        $timer->fixed_activities = $fixedActivities;
+        $timer->save();
     }
 
 

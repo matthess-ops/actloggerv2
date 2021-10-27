@@ -7,6 +7,22 @@
 
     {{-- href="{{ route('MainSubScaledExperiment.crud', ['id' => $id, 'group'=>$group]]) }}">Download --}}
 
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if ($message = Session::get('error'))
+    <div class="alert alert-success">
+        <p>{{ $message }}</p>
+    </div>
+  @endif
+
     <form action="{{ route('MainSubScaledExperiment.crud') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -310,15 +326,7 @@
 
 
 
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
 
 
 @endsection
