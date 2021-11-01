@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -18,6 +19,7 @@ class Log extends Model
       ];
     protected $casts = [
         'log' => 'array',
+
 
     ];
 }

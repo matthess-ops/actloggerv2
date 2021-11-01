@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Timer;
+use App\Log;
+use App\User;
+use Illuminate\Support\Carbon;
+
+use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
@@ -10,7 +16,17 @@ class LogController extends Controller
     // get all logs for user id;
     // return view with logs
     public function index(){
-        return view('logs.index');
+
+
+        $userID = Auth::id();
+        $logsToday = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
+        $timer = Timer::find($userID);
+
+
+
+
+
+        return view('logs.index', compact('logsToday'),compact('timer'));
 
     }
     // Route::get('/logs/{id}/edit', 'LogController@edit') ->name('log.edit')->middleware('auth');
