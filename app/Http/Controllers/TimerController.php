@@ -9,76 +9,77 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Foreach_;
+use App\Utilities\TimerHelpers;
 
 class TimerController extends Controller
 {
-    // filter for active is false
-    // works for all arrays but not for options that needs a seperate filter filterFixedOptionsForActive()
-    // return array containing only active elements
-    private function filterForActive(array $data)
-    {
-        $actives = array_filter($data, function ($element) {
-            if ($element["active"] == true) {
-                return $element;
-            }
-        });
+    // // filter for active is false
+    // // works for all arrays but not for options that needs a seperate filter filterFixedOptionsForActive()
+    // // return array containing only active elements
+    // private function filterForActive(array $data)
+    // {
+    //     $actives = array_filter($data, function ($element) {
+    //         if ($element["active"] == true) {
+    //             return $element;
+    //         }
+    //     });
 
-        return $actives;
-    }
+    //     return $actives;
+    // }
 
-    // filter fixed_activities options for active options.
-    // return array only containing active options
-    private function filterFixedOptionsForActive(array $fixedActivities)
-    {
-        $filterdFixedActivities = [];
-        foreach ($fixedActivities as $fixedActivity) {
-            $actives = array_filter($fixedActivity["options"], function ($element) {
-                if ($element["active"] == true) {
-                    return $element;
-                }
-            });
+    // // filter fixed_activities options for active options.
+    // // return array only containing active options
+    // private function filterFixedOptionsForActive(array $fixedActivities)
+    // {
+    //     $filterdFixedActivities = [];
+    //     foreach ($fixedActivities as $fixedActivity) {
+    //         $actives = array_filter($fixedActivity["options"], function ($element) {
+    //             if ($element["active"] == true) {
+    //                 return $element;
+    //             }
+    //         });
 
-            $fixedActivity["options"] = $actives;
-            array_push($filterdFixedActivities, $fixedActivity);
-        }
-        return $filterdFixedActivities;
-    }
+    //         $fixedActivity["options"] = $actives;
+    //         array_push($filterdFixedActivities, $fixedActivity);
+    //     }
+    //     return $filterdFixedActivities;
+    // }
 
-    // order decending for count
-    // only needed for main_activities, sub_activities,experiments
-    //return the orderd array
-    private function orderForCount(array $data)
-    {
-        array_multisort(array_map(function ($element) {
-            return $element['count'];
-        }, $data), SORT_DESC, $data);
-        return $data;
-    }
+    // // order decending for count
+    // // only needed for main_activities, sub_activities,experiments
+    // //return the orderd array
+    // private function orderForCount(array $data)
+    // {
+    //     array_multisort(array_map(function ($element) {
+    //         return $element['count'];
+    //     }, $data), SORT_DESC, $data);
+    //     return $data;
+    // }
 
-    // order decending for score
-    // only needed for scaled_activities
-    // return the ordered array
-    private function orderForScore(array $data)
-    {
-        array_multisort(array_map(function ($element) {
-            return $element['score'];
-        }, $data), SORT_DESC, $data);
-        return $data;
-    }
-    // order for fixed activity in fixed_activites the options
-    // array for count.
-    //return the orderd array
-    private function orderFixedActivitesOptionsForCount(array $fixedActivities)
-    {
-        foreach ($fixedActivities as &$fixedActivity) {
-            $data = $fixedActivity["options"];
-            array_multisort(array_map(function ($element) {
-                return $element['count'];
-            }, $data), SORT_DESC, $data);
-            $fixedActivity["options"] = $data;
-        }
-        return $fixedActivities;
-    }
+    // // order decending for score
+    // // only needed for scaled_activities
+    // // return the ordered array
+    // private function orderForScore(array $data)
+    // {
+    //     array_multisort(array_map(function ($element) {
+    //         return $element['score'];
+    //     }, $data), SORT_DESC, $data);
+    //     return $data;
+    // }
+    // // order for fixed activity in fixed_activites the options
+    // // array for count.
+    // //return the orderd array
+    // private function orderFixedActivitesOptionsForCount(array $fixedActivities)
+    // {
+    //     foreach ($fixedActivities as &$fixedActivity) {
+    //         $data = $fixedActivity["options"];
+    //         array_multisort(array_map(function ($element) {
+    //             return $element['count'];
+    //         }, $data), SORT_DESC, $data);
+    //         $fixedActivity["options"] = $data;
+    //     }
+    //     return $fixedActivities;
+    // }
 
     //Route::get('/dashboard', 'TimerController@dashboard') ->name('timer.dashboard')->middleware('auth');
     // get for user id the followng data (the timer activities arrays and experiment array, logs of today)
@@ -90,20 +91,20 @@ class TimerController extends Controller
         $timer = Timer::find($userID);
         $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
 
-        $mainActivities = $this->orderForCount($this->filterForActive($timer->main_activities));
-        $subActivities = $this->orderForCount($this->filterForActive($timer->sub_activities));
-        $fixedActivities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
-        $scaledActivities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
-        $experiments = $this->orderForCount($this->filterForActive($timer->experiments));
+        // $mainActivities = $this->orderForCount($this->filterForActive($timer->main_activities));
+        // $subActivities = $this->orderForCount($this->filterForActive($timer->sub_activities));
+        // $fixedActivities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
+        // $scaledActivities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
+        // $experiments = $this->orderForCount($this->filterForActive($timer->experiments));
 
 
-        $timer->main_activities = $this->orderForCount($this->filterForActive($timer->main_activities));
-        $timer->sub_activities = $this->orderForCount($this->filterForActive($timer->sub_activities));
-        $timer->fixed_activities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
-        $timer->scaled_activities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
-        $timer->experiments = $this->orderForCount($this->filterForActive($timer->experiments));
+        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
 
-
+        error_log(print_r($timer->main_activities,true));
 
         return view('timers.dashboard', compact('timer'), compact('logs'));
     }
@@ -120,11 +121,11 @@ class TimerController extends Controller
     public function config()
     {
         $timer = Timer::find(Auth::id());
-        $timer->main_activities = $this->orderForCount($this->filterForActive($timer->main_activities));
-        $timer->sub_activities = $this->orderForCount($this->filterForActive($timer->sub_activities));
-        $timer->fixed_activities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
-        $timer->scaled_activities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
-        $timer->experiments = $this->orderForCount($this->filterForActive($timer->experiments));
+        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
         return view('timers.config', compact('timer'));
     }
 
@@ -178,40 +179,40 @@ class TimerController extends Controller
 
 
 
-    //takes the scaled_activities fields from the $request and formats them to the correct array format
-    // needed for the previouslog.
-    // format =[ ["id"=>"1","score"=>"8"],["id"=>"2","score"=>"4"]]
+    // //takes the scaled_activities fields from the $request and formats them to the correct array format
+    // // needed for the previouslog.
+    // // format =[ ["id"=>"1","score"=>"8"],["id"=>"2","score"=>"4"]]
 
-    private function formatRequestScaledActivities($request)
-    {
-        $formattedArray = [];
-        foreach ($request->all() as $key => $value) {
-            $splittedKey = explode("&", $key);
-            if ($splittedKey[0] == "scaled_activity_id") {
+    // private function formatRequestScaledActivities($request)
+    // {
+    //     $formattedArray = [];
+    //     foreach ($request->all() as $key => $value) {
+    //         $splittedKey = explode("&", $key);
+    //         if ($splittedKey[0] == "scaled_activity_id") {
 
-                array_push($formattedArray,  ["id" => $splittedKey[1], "score" => $value]);
-            }
-        }
-        return $formattedArray;
-    }
+    //             array_push($formattedArray,  ["id" => $splittedKey[1], "score" => $value]);
+    //         }
+    //     }
+    //     return $formattedArray;
+    // }
 
-    //takes the fixed_actcities fields from the $request and formats them to the correct array format
-    // needed for the previouslog.
-    // format =[ ["id"=>"1","option_id"=>"8"],["id"=>"2","option_id"=>"4"]]
-    // with some additional code this function and formatRequestScaledActivities can be combined to reduce
-    //code duplication
-    private function formatRequestFixedActivities($request)
-    {
-        $formattedArray = [];
-        foreach ($request->all() as $key => $value) {
-            $splittedKey = explode("&", $key);
-            if ($splittedKey[0] == "fixed_activity_id") {
+    // //takes the fixed_actcities fields from the $request and formats them to the correct array format
+    // // needed for the previouslog.
+    // // format =[ ["id"=>"1","option_id"=>"8"],["id"=>"2","option_id"=>"4"]]
+    // // with some additional code this function and formatRequestScaledActivities can be combined to reduce
+    // //code duplication
+    // private function formatRequestFixedActivities($request)
+    // {
+    //     $formattedArray = [];
+    //     foreach ($request->all() as $key => $value) {
+    //         $splittedKey = explode("&", $key);
+    //         if ($splittedKey[0] == "fixed_activity_id") {
 
-                array_push($formattedArray,  ["id" => $splittedKey[1], "option_id" => $value]);
-            }
-        }
-        return $formattedArray;
-    }
+    //             array_push($formattedArray,  ["id" => $splittedKey[1], "option_id" => $value]);
+    //         }
+    //     }
+    //     return $formattedArray;
+    // }
 
     //for user $timer get selected_scaled_activities column then for each scaled activity id update the score with
     // the request scores.
@@ -308,8 +309,8 @@ class TimerController extends Controller
             $timer->previous_log =   [
                 "main_activity_id" => $request->main_activity,
                 "sub_activity_id" => $request->sub_activity,
-                "scaled_activities_ids" => $this->formatRequestScaledActivities($request),
-                "fixed_activities_ids" => $this->formatRequestFixedActivities($request),
+                "scaled_activities_ids" => TimerHelpers::formatRequestScaledActivities($request),
+                "fixed_activities_ids" => TimerHelpers::formatRequestFixedActivities($request),
                 "experiment_id" => $request->experiment,
 
 

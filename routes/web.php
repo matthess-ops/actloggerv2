@@ -33,7 +33,7 @@ Route::post('/stopstart', 'TimerController@startStop') ->name('timer.startstop')
 Route::get('/logs', 'LogController@index') ->name('logs.index')->middleware('auth');
 Route::get('/logs/{id}/edit', 'LogController@edit') ->name('logs.edit')->middleware('auth');
 Route::put('/logs/{id}', 'LogController@update') ->name('logs.update')->middleware('auth');
-Route::get('/logs/create', 'LogController@create') ->name('logs.create')->middleware('auth');
+Route::get('/logs/{elapsedtime}/{starttime}/create', 'LogController@create') ->name('logs.create')->middleware('auth');
 Route::post('/logs', 'LogController@store') ->name('logs.store')->middleware('auth');
 Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middleware('auth');
 

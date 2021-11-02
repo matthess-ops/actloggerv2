@@ -23,8 +23,8 @@ class LogSeeder extends Seeder
     public function LogsDateSelector(){
 
 
-
-        $dateArray = [["01-11-2021 08:22:22","01-11-2021 09:22:22"],["01-11-2021 09:24:22","01-11-2021 10:54:22"],["01-11-2021 11:05:22","01-11-2021 14:22:22"],["01-11-2021 16:33:22","01-11-2021 20:34:22"]]; //
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $dateArray = [[$currentDate." 08:22:22",$currentDate." 09:22:22"],[$currentDate." 09:24:22",$currentDate." 10:54:22"],[$currentDate." 11:05:22",$currentDate." 14:22:22"],[$currentDate." 16:33:22",$currentDate." 20:34:22"]]; //
 
         foreach ($dateArray as $datePair) {
             DB::table('logs')->insert([
