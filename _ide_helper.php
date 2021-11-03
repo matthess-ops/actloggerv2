@@ -14119,7 +14119,18 @@
      
 }
 
-        namespace Facade\Ignition\Facades { 
+        namespace App\Utilities { 
+            /**
+     * 
+     *
+     */ 
+        class TimerHelpers {
+         
+    }
+     
+}
+
+    namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
      *
@@ -17385,6 +17396,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class TimerHelpers extends \App\Utilities\TimerHelpers {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }

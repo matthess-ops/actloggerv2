@@ -6,6 +6,7 @@
    <form action="{{route('logs.store')}}" method="POST">
     @csrf
 
+
     <div class="form-group row d-flex justify-content-between">
         <label for="elapsedTime">Log Start Date:</label>
         <h5>{{$logStart}}</h5>

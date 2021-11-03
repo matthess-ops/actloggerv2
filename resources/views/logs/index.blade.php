@@ -19,6 +19,7 @@
             </form>
     @else
 
+    {{-- {{ dd($logsToday) }} --}}
 
     @foreach ($logsToday as $log)
 

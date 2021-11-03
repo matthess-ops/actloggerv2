@@ -21726,7 +21726,7 @@ if (timerRunning == true) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\mattt\Desktop\laravel oefenen\actloggerv2\actloggerv2\resources\js\dashboard.js */"./resources/js/dashboard.js");
+module.exports = __webpack_require__(/*! C:\Users\matth\Desktop\act_logger_v2\actloggerv2\resources\js\dashboard.js */"./resources/js/dashboard.js");
 
 
 /***/ })

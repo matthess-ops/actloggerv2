@@ -35,20 +35,20 @@ class LogSeeder extends Seeder
                 'updated_at' => Carbon::parse( $datePair[0]),
                 'elapsed_time'=>    Carbon::parse($datePair[1])->diffInSeconds(Carbon::parse($datePair[0])),
                 'log' => json_encode([
-                    "main_activity_id"=> "2",
-                    "sub_activity_id"=> "2" ,
+                    "main_activity_id"=> "1",
+                    "sub_activity_id"=> "3" ,
                     "experiment_id"=>"1",
 
                     "scaled_activities_ids"=>[
-                      ["id"=>"1","score"=>1],
-                      ["id"=>"2","score"=>2],
-                      ["id"=>"3","score"=>3],
-                      ["id"=>"4","score"=>4],
+                      ["id"=>"1","score"=>9],
+                      ["id"=>"2","score"=>9],
+                      ["id"=>"3","score"=>9],
+                      ["id"=>"4","score"=>9],
                     ] ,
                     "fixed_activities_ids"=>[
                         ["id"=>"1","option_id"=>1],
-                        ["id"=>"2","option_id"=>2],
-                        ["id"=>"3","option_id"=>3],
+                        ["id"=>"2","option_id"=>4],
+                        ["id"=>"3","option_id"=>4],
 
                     ],
 
