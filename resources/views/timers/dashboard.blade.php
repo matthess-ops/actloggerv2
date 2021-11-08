@@ -6,8 +6,18 @@
     <script>
         const startTime = @json($timer->start_time);
         const timerRunning = @json($timer->timer_running);
+        const logs = @json($logs);
+        const timerData = @json($timer);
+
 
     </script>
+
+
+<div>
+    <canvas style="min-height: 100px" id="chart"></canvas>
+
+
+</div>
 
     <h3 id = "timerH3">00:00</h3>
 

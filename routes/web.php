@@ -55,6 +55,8 @@ Route::post('/mainsubscaleexps', 'MainSubScaledExperimentController@crud') ->nam
 Route::post('/configfixed', 'MainSubScaledExperimentController@fixedCrud') ->name('MainSubScaledExperiment.fixedCrud')->middleware('auth');
 Route::post('/newfixedgroup', 'MainSubScaledExperimentController@newFixedGroup') ->name('MainSubScaledExperiment.newFixedGroup')->middleware('auth');
 
+Route::get('/graphs', 'GraphController@index') ->name('graph.index')->middleware('auth');
+
 
 // Route::post('/lefuck', function () {
 //     return "test";

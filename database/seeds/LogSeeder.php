@@ -13,7 +13,8 @@ class LogSeeder extends Seeder
     public function run()
     {
 
-        $this->LogsDateSelector();
+        // $this->LogsDateSelector();
+        $this->defaultLogs();
     }
 
 
@@ -67,9 +68,9 @@ class LogSeeder extends Seeder
         $stopTime = Carbon::now();
 
     for ($userCount = 1; $userCount < 4; $userCount++) {
-        for ($postCount = 0; $postCount < 10; $postCount++) {
-            $startTime =$startTime->addMinutes(2);
-            $stopTime =$startTime->addMinutes(1);
+        for ($postCount = 0; $postCount < 100; $postCount++) {
+            $startTime =$startTime->addMinutes(20);
+            $stopTime =$startTime->addMinutes(10);
 
             DB::table('logs')->insert([
                 'user_id' => $userCount,
@@ -79,8 +80,8 @@ class LogSeeder extends Seeder
                 'updated_at' => Carbon::now(),
                 'elapsed_time'=> 60,
                 'log' => json_encode([
-                    "main_activity_id"=> "2",
-                    "sub_activity_id"=> "2" ,
+                    "main_activity_id"=> rand(1, 4),
+                    "sub_activity_id"=> rand(1, 3) ,
                     "experiment_id"=>"1",
 
                     "scaled_activities_ids"=>[
