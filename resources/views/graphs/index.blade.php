@@ -34,8 +34,15 @@
 
     </div>
 
-      <div>
-        <canvas style="min-height: 100px" id="chart"></canvas>
+    <div class="form-group">
+        <label for="activityInput">Make graph</label>
+        <input class="btn btn-primary " type="button" name="makeGraph" id="makeGraph"
+            type="submit" value="make graph">
+
+    </div>
+
+      <div id = "canvasDiv">
+        <canvas style="min-height: 100px" id="logsChart"></canvas>
 
 
     </div>
