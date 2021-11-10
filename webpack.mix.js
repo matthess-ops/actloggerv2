@@ -21,6 +21,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .js('resources/js/dashboard.js', 'public/js')
     .js('resources/js/graphs.js', 'public/js')
+    .js('resources/js/graphs2.js', 'public/js')
+
 
     .browserSync('127.0.0.1:8000');
 

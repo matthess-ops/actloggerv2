@@ -1,7 +1,7 @@
 @extends('layouts.navbar')
 
 @section('content')
-<script src="{{ asset('js/graphs.js') }}" defer></script>
+<script src="{{ asset('js/graphs2.js') }}" defer></script>
 
 <script>
 
@@ -25,16 +25,36 @@
 
       <h4>nr of logs {{count($logs)}}</h4>
 
-      <div id="graphingInputs"></div>
+      <div id="mainSubInputs"></div>
 
       <div class="form-group">
         <label for="activityInput">Activity options</label>
-        <input class="btn btn-primary " type="button" name="activityInput" id="activityInput"
-            type="submit" value="Add Activity">
+        <input class="btn btn-primary " type="button" name="addMainSubInput" id="addMainSubInput"
+            type="submit" value="Add MainSub">
 
-    </div>
+        </div>
 
-    <div class="form-group">
+        <h1>scale dinputs row</h1>
+        <div id="scaledInputs"></div>
+
+        <div class="form-group">
+          <label for="activityInput">Scaled options</label>
+          <input class="btn btn-primary " type="button" name="addScaledInput" id="addScaledInput"
+              type="submit" value="Add Scaled">
+
+          </div>
+
+          <h1>scale dinputs row</h1>
+          <div id="fixedInputs"></div>
+
+          <div class="form-group">
+            <label for="activityInput">Fixed options</label>
+            <input class="btn btn-primary " type="button" name="addFixedInput" id="addFixedInput"
+                type="submit" value="Add Scaled">
+
+            </div>
+
+    {{-- <div class="form-group">
         <label for="activityInput">Make graph</label>
         <input class="btn btn-primary " type="button" name="makeGraph" id="makeGraph"
             type="submit" value="make graph">
@@ -45,7 +65,7 @@
         <canvas style="min-height: 100px" id="logsChart"></canvas>
 
 
-    </div>
+    </div> --}}
 
 
 @endsection
