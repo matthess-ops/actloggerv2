@@ -25,7 +25,9 @@
 
       <h4>nr of logs {{count($logs)}}</h4>
 
-      <div id="mainSubInputs"></div>
+      <div>
+      <div id="mainSubInputs">        </div>
+
 
       <div class="form-group">
         <label for="activityInput">Activity options</label>
@@ -34,8 +36,15 @@
 
         </div>
 
+        <input class="btn btn-primary " type="button" name="makeMainSubGraph" id="makeMainSubGraph"
+        type="submit" value="create main sub graph">
+
+    </div>
+    <div>
         <h1>scale dinputs row</h1>
-        <div id="scaledInputs"></div>
+
+        <div id="scaledInputs">        </div>
+
 
         <div class="form-group">
           <label for="activityInput">Scaled options</label>
@@ -44,8 +53,14 @@
 
           </div>
 
-          <h1>scale dinputs row</h1>
+          <input class="btn btn-primary " type="button" name="makeScaledGraph" id="makeScaledGraph"
+          type="submit" value="create scaled graph">
+        </div>
+        <div>
+            <h1>fixed dinputs row</h1>
+
           <div id="fixedInputs"></div>
+
 
           <div class="form-group">
             <label for="activityInput">Fixed options</label>
@@ -53,6 +68,11 @@
                 type="submit" value="Add Scaled">
 
             </div>
+
+
+            <input class="btn btn-primary " type="button" name="makeFixedGraph" id="makeFixedGraph"
+            type="submit" value="create fixed graph">
+        </div>
 
     {{-- <div class="form-group">
         <label for="activityInput">Make graph</label>

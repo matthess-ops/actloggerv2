@@ -85,10 +85,10 @@ class LogSeeder extends Seeder
                     "experiment_id"=>"1",
 
                     "scaled_activities_ids"=>[
-                      ["id"=>"1","score"=>1],
-                      ["id"=>"2","score"=>2],
-                      ["id"=>"3","score"=>3],
-                      ["id"=>"4","score"=>4],
+                      ["id"=>"1","score"=>rand(1, 10)],
+                      ["id"=>"2","score"=>rand(1, 10)],
+                      ["id"=>"3","score"=>rand(1, 10)],
+                      ["id"=>"4","score"=>rand(1, 10)],
                     ] ,
                     "fixed_activities_ids"=>[
                         ["id"=>"1","option_id"=>1],
