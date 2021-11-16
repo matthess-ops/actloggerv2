@@ -91,9 +91,9 @@ class LogSeeder extends Seeder
                       ["id"=>"4","score"=>rand(1, 10)],
                     ] ,
                     "fixed_activities_ids"=>[
-                        ["id"=>"1","option_id"=>1],
-                        ["id"=>"2","option_id"=>2],
-                        ["id"=>"3","option_id"=>3],
+                        ["id"=>"1","option_id"=>rand(1, 2)],
+                        ["id"=>"2","option_id"=>rand(1, 3)],
+                        ["id"=>"3","option_id"=>rand(1, 2)],
 
                     ],
 

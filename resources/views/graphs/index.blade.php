@@ -79,13 +79,25 @@
         <input class="btn btn-primary " type="button" name="makeGraph" id="makeGraph"
             type="submit" value="make graph">
 
-    </div>
+    </div> --}}
 
       <div id = "canvasDiv">
-        <canvas style="min-height: 100px" id="logsChart"></canvas>
+        <canvas style="min-height: 100px" id="mainSubChart"></canvas>
 
 
-    </div> --}}
+    </div>
+
+    <div id = "canvasDiv">
+        <canvas style="min-height: 100px" id="scaledChart"></canvas>
+
+
+    </div>
+
+    <div id = "canvasDiv">
+        <canvas style="min-height: 100px" id="fixedChart"></canvas>
+
+
+    </div>
 
 
 @endsection
