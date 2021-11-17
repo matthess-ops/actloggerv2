@@ -62,6 +62,12 @@ class LogController extends Controller
     // return edit view with log data
     public function edit($id){
 
+        $userID = Auth::id();
+        $log = Log::find($id);
+        $timer = Timer::find($userID);
+        error_log("waarom doe je het niet");
+        return view('logs.edit',compact('log','timer'));
+
     }
     // Route::put('/logs/{id}', 'LogController@update') ->name('log.update')->middleware('auth');
     // validate request data
@@ -123,7 +129,7 @@ class LogController extends Controller
         ];
 
 
-        // $newLog->save();
+        $newLog->save();
         return redirect()->route('logs.index');
 
     }

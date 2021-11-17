@@ -258,7 +258,10 @@ const fixedMain = () => {
             const optionNames = getFixedAssociatedOptionIdsNames(optionIds)
             const graphData = calculateFixedGraphData(optionNames)
             const bargraphDataSets = makeFixedDatasets(graphData)
-            barGraphFixed(bargraphDataSets[0]["data"], bargraphDataSets[0]["dates"],"fixedChart","fixed bar graph")
+            createCanvas(bargraphDataSets)
+            // barGraphFixed(bargraphDataSets[0]["data"], bargraphDataSets[0]["dates"],"fixedChart","fixed bar graph")
+            barGraphFixed(bargraphDataSets, bargraphDataSets[0]["dates"])
+
             console.log("bargraphDataSets")
             console.log(bargraphDataSets)
 
@@ -627,29 +630,54 @@ const makeGraph = (lineData, labels,canvasId,text) => {
 }
 
 
-const barGraphFixed = (lineData, labels,canvasId,text) => {
-    console.log(lineData)
-    console.log(labels)
-    document.getElementById(canvasId).remove() // remove the previous chart/canvas, because chartjs prevent overriding previouly made charts
+const createCanvas = (inputRows) =>{
 
-    let newCanvas = document.createElement('canvas');
-    newCanvas.id = canvasId
-    document.getElementById("canvasDiv").appendChild(newCanvas) // create a new canvas
+    try{
+        document.getElementById("fixedGraphs").innerHTML = ""
+        // document.getElementById(inputRow["fixedId"]["text"]).remove() // remove the previous chart/canvas, because chartjs prevent overriding previouly made charts
 
-    const test = new Chart(document.getElementById(canvasId), {
+    }catch(error){
+        console.log(error)
+    }
+
+    inputRows.forEach(inputRow => {
+
+
+
+        let canvas = document.createElement('canvas');
+        canvas.setAttribute("style","min-height: 100px")
+        canvas.setAttribute("style","min-width: 100px")
+
+        canvas.setAttribute("style","background-color: red: red")
+
+        canvas.id = inputRow["fixedId"]["text"]
+        document.getElementById("fixedGraphs").appendChild(canvas)
+    });
+}
+
+            // barGraphFixed(bargraphDataSets[0]["data"], bargraphDataSets[0]["dates"],"fixedChart","fixed bar graph")
+
+const barGraphFixed = (inputRows, labels) => {
+
+    inputRows.forEach(inputRow => {
+
+
+        // let lineData = inputRow["data"]
+
+    const test = new Chart(document.getElementById(inputRow["fixedId"]["text"]), {
 
 
             type: "bar",
 
             data: {
                 labels: labels,
-                datasets: lineData
+                datasets: inputRow["data"]
             },
             options: {
                 plugins: {
                   title: {
                     display: true,
-                    text: text
+                    text: inputRow["fixedId"]["text"]
                   },
                 },
                 responsive: true,
@@ -663,28 +691,10 @@ const barGraphFixed = (lineData, labels,canvasId,text) => {
                 }
               }
         });
-    //     type: "line",
 
-    //     data: {
-    //         labels: labels,
-    //         datasets: lineData,
-    //     },
-    //     options: {
-    //         responsive: true,
-    //         plugins: {
-    //             legend: {
-    //                 position: 'top',
-    //             },
-    //             title: {
-    //                 display: true,
-    //                 text: text
-    //             }
-    //         }
-    //     },
-    // });
 
     test.update()
-
+});
 }
 
 

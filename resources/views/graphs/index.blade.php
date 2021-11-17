@@ -99,5 +99,7 @@
 
     </div>
 
+    <div id= "fixedGraphs"></div>
+
 
 @endsection
