@@ -13,8 +13,8 @@ class LogSeeder extends Seeder
     public function run()
     {
 
-        // $this->LogsDateSelector();
-        $this->defaultLogs();
+        $this->LogsDateSelector();
+        // $this->defaultLogs();
     }
 
 
@@ -25,7 +25,7 @@ class LogSeeder extends Seeder
 
 
         $currentDate = Carbon::now()->format('Y-m-d');
-        $dateArray = [[$currentDate." 08:22:22",$currentDate." 09:22:22"],[$currentDate." 09:24:22",$currentDate." 10:54:22"],[$currentDate." 11:05:22",$currentDate." 14:22:22"],[$currentDate." 16:33:22",$currentDate." 20:34:22"]]; //
+        $dateArray = [[$currentDate." 08:30:00",$currentDate." 09:30:00"],[$currentDate." 10:00:00",$currentDate." 10:30:00"],[$currentDate." 12:30:00",$currentDate." 14:30:00"],[$currentDate." 16:30:00",$currentDate." 20:30:00"]]; //
 
         foreach ($dateArray as $datePair) {
             DB::table('logs')->insert([

@@ -1,7 +1,6 @@
 @extends('layouts.navbar')
 
 @section('content')
-    <h1>Logs </h1>
     <h1>Search for date {{$dateLogs}} </h1>
 
     <form method="GET" action="{{ route('logs.index') }}" class="form-inline my-2 my-lg-0">
@@ -24,16 +23,15 @@
     @foreach ($logsToday as $log)
 
         <div class="border mb-4">
-            "log id ="{{$log["id"]}}
+            {{-- "log id ="{{$log["id"]}}
                 <div>
                     <h5>Log: {{ $loop->index }}</h5>
+                </div> --}}
+                {{-- {{dd($log)}} --}}
+                <div class="font-weight-bold h5">
+                     {{ \Carbon\Carbon::parse($log['start_time'])->format('h:i') }} : Start tijd
                 </div>
-                <div>
-                    Start tijd: {{ $log['start_time'] }}
-                </div>
-                <div>
-                    Stop tijd: {{ $log['stop_time'] }}
-                </div>
+
 
                 <div>
                     Duratie (min): {{ date('H:i', mktime(0, $log['elapsed_time'] / 60)) }}
@@ -42,7 +40,7 @@
                     @foreach ($timer->main_activities as $main_activity)
                         @if ($main_activity['id'] == $log['log']['main_activity_id'])
                             <div>
-                                Main activity name: {{ $main_activity['name'] }}
+                                Main activity: {{ $main_activity['name'] }}
 
                             </div>
 
@@ -56,7 +54,7 @@
                     @foreach ($timer->sub_activities as $sub_activity)
                         @if ($sub_activity['id'] == $log['log']['sub_activity_id'])
                             <div>
-                                Sub activity name: {{ $sub_activity['name'] }}
+                                Sub activity: {{ $sub_activity['name'] }}
                             </div>
                         @endif
                     @endforeach
@@ -70,24 +68,48 @@
                     @foreach ($timer->experiments as $experiment)
                         @if ($experiment['id'] == $log['log']['experiment_id'])
                             <div>
-                                Experiment name: {{ $experiment['name'] }}
+                                Experiment: {{ $experiment['name'] }}
                             </div>
                         @endif
                     @endforeach
                 </div>
 
-                <div>
-
-                    @foreach ($log['log']['fixed_activities_ids'] as $fixedActivityIds)
-                        @foreach ($timer->fixed_activities as $fixedActivity)
-                            @if ($fixedActivity['id'] == $fixedActivityIds['id'])
+                <div class="mt-3">
+                    <h5>Scaled activities</h5>
+                    @foreach ($log['log']['scaled_activities_ids'] as $logScaledActivity)
+                        @foreach ($timer->scaled_activities as $timerScaledActivity)
+                            @if ($timerScaledActivity['id'] == $logScaledActivity['id'])
                                 <div>
+                                    <div>{{$timerScaledActivity['name'].":".$logScaledActivity['score']}}</div>
 
 
-                                    @foreach ($fixedActivity['options'] as $option)
-                                        @if ($option['id'] == $fixedActivityIds['option_id'])
-                                            Fixed Activity {{ $loop->index }} name
-                                            : {{ $fixedActivity['name'] }} optionname = {{ $option['name'] }}
+
+
+                                </div>
+
+                            @endif
+                        @endforeach
+
+                    @endforeach
+
+                </div>
+
+                <div class="mt-3">
+                    <h5>Fixed activities</h5>
+                    @foreach ($log['log']['fixed_activities_ids'] as $logFixedActivity)
+                        @foreach ($timer->fixed_activities as $timerFixedActivity)
+                            @if ($timerFixedActivity['id'] == $logFixedActivity['id'])
+                                <div>
+                                    {{-- <h1>{{$logFixedActivity['option_id'] }}</h1> --}}
+
+
+                                    @foreach ($timerFixedActivity['options'] as $timerOption)
+                                    {{-- <h1>{{$option['id']." ".$fixedActivityIds['option_id']}}</h1> --}}
+
+                                        @if ($timerOption['id'] == $logFixedActivity['option_id'])
+                                        <div>
+                                            {{$timerFixedActivity['name'].":". $timerOption['name']}}
+                                        </div>
                                         @endif
 
                                     @endforeach
@@ -96,24 +118,33 @@
 
                             @endif
                         @endforeach
-                        {{-- {{ $fixedActivityIds["id"] }} --}}
 
                     @endforeach
 
                 </div>
+
+
+
+
+
                 <form action="{{route('logs.edit', ['id' => $log["id"]])}}" method="GET">
                     @csrf
+                    <div class="d-flex justify-content-left">
 
-                <button type="submit" class="btn btn-primary">Edit log</button>
+                <button type="submit" class="btn btn-primary  m-1">Edit log</button>
                     </form>
 
                     <form action="{{route('logs.delete', ['id' => $log["id"]])}}" method="post">
                         @csrf
                         {{ method_field('delete') }}
 
-                    <button type="submit" class="btn btn-primary">Delete log</button>
+                    <button type="submit" class="btn btn-primary m-1">Delete log</button>
                         </form>
+                    </div>
 
+                    <div class="font-weight-bold h5">
+                        {{ \Carbon\Carbon::parse($log['stop_time'])->format('h:i') }} : Stop time
+                   </div>
         </div>
 
 

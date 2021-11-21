@@ -27,11 +27,11 @@ class LogController extends Controller
             $logsToday = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->orderBy('start_time', 'asc')->get()->toArray();
             $timer = Timer::find($userID);
             $dateLogs = Carbon::now()->format('Y-m-d');
-            $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
-            $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
-            $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
-            $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
-            $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+            // $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+            // $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+            // $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+            // $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+            // $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
 
 
             return view('logs.index', compact('logsToday','timer','dateLogs'));
@@ -41,11 +41,11 @@ class LogController extends Controller
             $logsToday = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::parse($request->input('date')))->orderBy('start_time', 'asc')->get()->toArray();
             $timer = Timer::find($userID);
             $dateLogs = Carbon::parse($request->input('date'))->format('Y-m-d');
-            $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
-            $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
-            $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
-            $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
-            $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+            // $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+            // $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+            // $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+            // $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+            // $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
 
 
             return view('logs.index',compact('logsToday','timer','dateLogs'));
@@ -65,7 +65,11 @@ class LogController extends Controller
         $userID = Auth::id();
         $log = Log::find($id);
         $timer = Timer::find($userID);
-        error_log("waarom doe je het niet");
+        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
         return view('logs.edit',compact('log','timer'));
 
     }
@@ -75,7 +79,30 @@ class LogController extends Controller
     // and update all the log data with request data
     // redirct to log.index
     public function update(Request $request,$id){
+        // $userID = Auth::id();
+        $newLog = Log::find($id);
 
+        // $newLog = new Log;
+        // $newLog->user_id = Auth::id();
+        // $newLog->start_time = Carbon::parse($request->input('start_time'));
+        $newLog->stop_time = Carbon::parse($newLog->start_time)->addMinutes($request->input('log_duration'));
+        $newLog->created_at = Carbon::now();
+        $newLog->updated_at = Carbon::now();
+        $newLog->elapsed_time = $request->input('log_duration')*60;
+        $newLog->log =
+        [
+            "main_activity_id" => $request->main_activity,
+            "sub_activity_id" => $request->sub_activity,
+            "scaled_activities_ids" => TimerHelpers::formatRequestScaledActivities($request),
+            "fixed_activities_ids" => TimerHelpers::formatRequestFixedActivities($request),
+            "experiment_id" => $request->experiment,
+
+
+        ];
+
+
+        $newLog->save();
+        return redirect()->route('logs.index');
     }
 
     // Route::get('/logs/create', 'LogController@create') ->name('log.create')->middleware('auth');

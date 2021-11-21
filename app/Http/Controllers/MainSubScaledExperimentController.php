@@ -278,8 +278,10 @@ class MainSubScaledExperimentController extends Controller
 
         if($fixedActivityNameAlreadyExists ==true){
 
+            error_log("EERERERERERER");
             return redirect()->back()
-            ->withErrors(["new_fixed_activity_exists"=> 'new fixed activity group name already exists']);;
+            ->with('new_fixed_activity_exists', 'New fixed activity already exists');
+            // ->withErrors(["new_fixed_activity_exists"=> 'New fixed activity already exists']);;
 
 
         }
@@ -315,6 +317,7 @@ class MainSubScaledExperimentController extends Controller
 
         $timer->fixed_activities = $fixedActivities;
         $timer->save();
+        return redirect()->back();
     }
 
 
