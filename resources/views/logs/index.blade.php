@@ -1,12 +1,16 @@
 @extends('layouts.navbar')
 
 @section('content')
-    <h1>Search for date {{$dateLogs}} </h1>
+    <h1 >Search for date {{$dateLogs}} </h1>
 
+    <div class="mb-3">
     <form method="GET" action="{{ route('logs.index') }}" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="date" aria-label="Search" name="date" value="{{$dateLogs}}">
         <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
       </form>
+    </div>
+
+
 
 
     @if (empty($logsToday))
@@ -18,11 +22,21 @@
             </form>
     @else
 
-    {{-- {{ dd($logsToday) }} --}}
+    @if (!empty($logsToday))
 
+    <div class="border mb-3 p-2">
+
+    <h4>Start logs vandaag</h4>
+    <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
+        @csrf
+
+    <button type="submit" class="btn btn-primary">create log</button>
+        </form>
+        </div>
+    @endif
     @foreach ($logsToday as $log)
 
-        <div class="border mb-4">
+        <div class="border mb-3 p-2">
             {{-- "log id ="{{$log["id"]}}
                 <div>
                     <h5>Log: {{ $loop->index }}</h5>
@@ -150,15 +164,17 @@
 
 
 
-        <div class="border mb-4">
 
 
                 @if ($loop->index + 1 < count($logsToday))
                 {{-- an create new log button is only addded when the time between the two logs is larger than 10 minutes --}}
                 @if ( \Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60 > 10)
-                <h5>
+                <div class="border mb-3 p-2">
+
+                <h5 class = "font-weight-bold">
                     Tijd tussen logs:
                     {{ \Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60 }}
+                     min
                 </h5>
 
                 <form action="{{route('logs.create',['elapsedtime'=>\Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60,'starttime'=>$log['stop_time']])}}" method="GET">
@@ -166,19 +182,22 @@
 
                 <button type="submit" class="btn btn-primary">create log</button>
                     </form>
-                @endif
+                </div>
+
+                    @endif
 
 
 
                 @endif
 
             </form>
-        </div>
 
     @endforeach
 
     @endif
     @if (!empty($logsToday))
+
+    <div class="border mb-3 p-2">
 
     <h4>Einde logs vandaag</h4>
     <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
@@ -186,7 +205,7 @@
 
     <button type="submit" class="btn btn-primary">create log</button>
         </form>
-
+        </div>
     @endif
 
 

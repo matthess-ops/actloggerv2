@@ -13,8 +13,8 @@ class LogSeeder extends Seeder
     public function run()
     {
 
-        $this->LogsDateSelector();
-        // $this->defaultLogs();
+        // $this->LogsDateSelector();
+        $this->defaultLogs();
     }
 
 

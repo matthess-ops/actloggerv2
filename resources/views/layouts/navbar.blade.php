@@ -31,9 +31,11 @@
                 <div class="navbar-nav " style="font-size: 1.6em">
                     <a class="nav-item nav-link" href="{{ route('timers.dashboard') }}">Dashboard</a>
                     <a class="nav-item nav-link" href="{{ route('timers.config') }}">Config</a>
-                    
+
                     <a class="nav-item nav-link" href="{{ route('posts.index') }}">Posts</a>
                     <a class="nav-item nav-link" href="{{ route('logs.index') }}">Logs</a>
+                    <a class="nav-item nav-link" href="{{ route('graph.index') }}">Graphs</a>
+
                     <a class="nav-item nav-link justify-content-end" href="{{ route('logout') }}" onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}

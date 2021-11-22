@@ -202,5 +202,62 @@ const createGraph = ()=>{
 }
 
 
+https://www.sara-werkt.nl/portfolio-view/pilot-praktijkassessment/
+
+Wij zetten de TTI SI Gedragsanalyse in. Hiermee wordt gemeten op welke manier een respondent omgaat met uitdagingen, mensen, veranderingen en procedures. TTI SI brengt aan de hand van de DISC-scores de unieke gedragsstijl van een individu in kaart. 
+
+
+Wat heb ik nodig om weer aan het werk te kunnen
+-belastbaarheid moet ik kaart worden gebracht
+-belans tussen werk en ontspanning/sociaal
+-moet mn huishouden kunnen runnen
+
+Doelen:
+Kennis opdoen/verder ontwikkelen van vaardigheden in  fullstack webdevelopment
+-verder oefenen met php, laravel framework en javascript
+-Kennis opdoen en oefenen met het vue.js front-end framework
+
+Duurzame balans (lichamelijk functioneren/ psychologische gezondheid) tussen werk, sociale contacten, rust, ontspanning, hobbies, huishouden, persoonlijke verzorging, lichamelijk beweging en relaties bepalen. Doormiddel door het bijhouden van tijdschrijf lijsten en wekelijkse evaluaties
+
+Vanuit de duurzame balans ruimte zoeken/ experimenteren met dagelijkse activiteiten om het aantal gewerkte uren uit te breiden. Doormiddel door het bijhouden van tijdschrijf lijsten en wekelijkse evaluaties.
+
+Financiele positie uitzoeken/verbeteren. Door contact op te nemen met de gemeente.
+
+Voedingspatroon uitzoeken.
+
+Aan een goed dag en nacht ritme werken.
+
+Invloed van chronische pijn in kaart brengen op mijn dagelijks functioneren. Zowel prive en als op locatie. Doormiddel van tijdschrijflijsten en wekelijkse evaluaties
+
+Kennis niveau in kaart brengen en gaten in kennis opvullen.
+
+Gewerkt uren op locatie in kaart brengen / uitbreiden.
+
+Methodes / plan van aanpak opstellen voor herstel indien ik in een slechte
+periode/ total loss ben.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+duurzaam tussen werk, sociale contacten, hobbies, huishouden, persoonlijk verzorging, lichamelijk beweging en relaties - doormiddel van het bijhouden van tijdschrijf lijsten
+financiele positie uitzoeken
+voldaan gevoel door het leven gaan
+psychochologisch stabiel zijn/ plezier hebben in het leven
+Aantal gewerkte uren opbouwen.
+voeding bij houden
+experimenteren met dagelijkse activiteiten waardoor hopelijk er extra actieve uren en gewonnen kunnen worden
+solide basis neerzetten om mee te experimenteren.
+
+
 
 

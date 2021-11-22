@@ -13,14 +13,7 @@
             <h4>Log start time: {{\Carbon\Carbon::parse($log->start_time)->format('h:i')}} </h4>
             <h4>Log end time: {{\Carbon\Carbon::parse($log->start_time)->format('h:i')}} </h4>
 
-            {{-- <label for="elapsedTime">Log Start Date:</label>
-            <h5>{{ 'start tiume = ' . $log->start_time }}</h5>
-            <h5>{{ 'end tiume = ' . $log->stop_time }}</h5> --}}
 
-            {{-- <h5>"{{\Carbon\Carbon::parse($log->start_time)->format('Y-m-d')."T".\Carbon\Carbon::parse($log->start_time)->format('H:i')}}"</h5> --}}
-            {{-- the date time string needed to be created out of two parts since the T is the parameter for UTC in carbon --}}
-            {{-- <input type="datetime-local" id="start_time" name="start_time"
-                value="{{ \Carbon\Carbon::parse($log->start_time)->format('Y-m-d') . 'T' . \Carbon\Carbon::parse($log->start_time)->format('H:i') }}"> --}}
         </div>
 
         <div class="form-group row d-flex justify-content-between">

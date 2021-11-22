@@ -61,10 +61,12 @@ const colorScheme = [
 // these are added to the divIdToAddRowTo div.
 const addSelectRow = (dbColumnsToCreateSelectFor, nameIdsForSelect, divIdToAddRowTo) => {
     let newRowDiv = document.createElement("div");
+    newRowDiv.setAttribute("class", "form-group form-inline mb-1")
 
     dbColumnsToCreateSelectFor.forEach((dbColumnName, index) => {
         let newSelect = document.createElement("select"); // creating the select
         newSelect.setAttribute("name", nameIdsForSelect[index])
+        newSelect.setAttribute("class", "form-control mr-1 mb-1")
 
         timerData[dbColumnName].forEach(selectOption => {
             let newOption = document.createElement("option"); // creating the options
@@ -78,7 +80,8 @@ const addSelectRow = (dbColumnsToCreateSelectFor, nameIdsForSelect, divIdToAddRo
 
     //delete button
     let deleteButton = document.createElement("button");
-    deleteButton.textContent = "delete row"
+    deleteButton.textContent = "remove"
+    deleteButton.setAttribute("class","btn btn-primary form-control ")
     deleteButton.addEventListener("click", event => {
         event.target.parentNode.remove()
     });
@@ -107,7 +110,7 @@ const createNewMainSubInputRow = () => {
             },
             {
                 "id": 1,
-                "name": "average log time"
+                "name": "ave logtime"
             }
 
 
@@ -196,6 +199,20 @@ const readSelectInput = (selectIds) => {
 
 
 }
+
+const addDayToGraphLabels = (dates)=>{
+    const formatted = dates.map((date) =>{
+
+        let momentDate = moment(date, 'YYYY-MM-DD')
+        const weekDay = momentDate.format('ddd')
+        return weekDay +" "+momentDate.format("DD-MM-YYYY")
+
+    }
+       )
+
+    return formatted
+}
+
 // main function that listens to create an main /sub activities graph
 const mainSubMain = () => {
     addSelectRow(["main_activities", "sub_activities", "main_sub_options"], ["mainId", "subId", "optionId"], "mainSubInputs")
@@ -208,7 +225,8 @@ const mainSubMain = () => {
             const selectLogsDateSeperated = seperateLogsForDates(selectDataInputLogs)
             const graphData = calculateMainSubGraphData(selectLogsDateSeperated)
             const graphDataSets = makeMainSubDataSets(graphData)
-            makeGraph(graphDataSets,graphData[0]["dates"],"mainSubChart",'main and sub activity graphs')
+
+            makeGraph(graphDataSets,addDayToGraphLabels(graphData[0]["dates"]),"mainSubChart",'main and sub activity graphs')
 
 
 
@@ -234,7 +252,7 @@ const scaledMain = () => {
             const selectLogsDateSeperated = seperateLogsForDates(selectDataInputLogs)
             const graphData =calculateScaledGraphData(selectLogsDateSeperated)
             const graphDataSets = makeScaledDatasets(graphData)
-            makeGraph(graphDataSets,graphData[0]["dates"],"scaledChart",'scaled activities graphs')
+            makeGraph(graphDataSets,addDayToGraphLabels(graphData[0]["dates"]),"scaledChart",'scaled activities graphs')
 
         } else {
             console.log("no scaled data")
@@ -259,8 +277,7 @@ const fixedMain = () => {
             const graphData = calculateFixedGraphData(optionNames)
             const bargraphDataSets = makeFixedDatasets(graphData)
             createCanvas(bargraphDataSets)
-            // barGraphFixed(bargraphDataSets[0]["data"], bargraphDataSets[0]["dates"],"fixedChart","fixed bar graph")
-            barGraphFixed(bargraphDataSets, bargraphDataSets[0]["dates"])
+            barGraphFixed(bargraphDataSets, addDayToGraphLabels(bargraphDataSets[0]["dates"]))
 
             console.log("bargraphDataSets")
             console.log(bargraphDataSets)
@@ -706,3 +723,5 @@ scaledMain()
 fixedMain()
 
 
+const newFormat = addDayToGraphLabels(["2021-11-23"])
+console.log(newFormat)

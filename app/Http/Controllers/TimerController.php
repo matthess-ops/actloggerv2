@@ -91,6 +91,7 @@ class TimerController extends Controller
         $timer = Timer::find($userID);
         $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
 
+
         // $mainActivities = $this->orderForCount($this->filterForActive($timer->main_activities));
         // $subActivities = $this->orderForCount($this->filterForActive($timer->sub_activities));
         // $fixedActivities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));

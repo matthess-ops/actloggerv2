@@ -1,21 +1,19 @@
 @extends('layouts.navbar')
 
 @section('content')
-   <h1>create log</h1>
 
    <form action="{{route('logs.store')}}" method="POST">
     @csrf
 
-
     <div class="form-group row d-flex justify-content-between">
-        <label for="elapsedTime">Log Start Date:</label>
-        <h5>{{$logStart}}</h5>
-        <h5>"{{\Carbon\Carbon::parse($logStart)->format('Y-m-d')."T".\Carbon\Carbon::parse($logStart)->format('H:i')}}"</h5>
-        {{-- the date time string needed to be created out of two parts since the T is the parameter for UTC in carbon --}}
-        <input type="datetime-local" id="start_time"
-            name="start_time" value="{{\Carbon\Carbon::parse($logStart)->format('Y-m-d')."T".\Carbon\Carbon::parse($logStart)->format('H:i')}}"
-            >
-</div>
+        <h4>Date: {{\Carbon\Carbon::parse($logStart)->format('Y-m-d')}} </h4>
+        <h4>Log start time: {{\Carbon\Carbon::parse($logStart)->format('h:i')}} </h4>
+        {{-- <h4>Log end time: {{\Carbon\Carbon::parse($log->start_time)->format('h:i')}} </h4> --}}
+
+
+    </div>
+
+
 
     <div class="form-group row d-flex justify-content-between">
             <label for="elapsedTime">Log duration (mins)</label>
@@ -129,7 +127,6 @@
                     }
                 }
             @endphp
-            {{"selected id should be ".$selected_id}}
             <div class="form-group row d-flex justify-content-between">
                 <label for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $fixedActivity['name'] }}</label>
                 <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control"
