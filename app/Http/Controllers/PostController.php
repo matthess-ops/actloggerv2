@@ -38,6 +38,14 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+    public function delete($id){
+
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->back();
+
+    }
+
 
 
 

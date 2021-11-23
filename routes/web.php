@@ -41,6 +41,7 @@ Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middl
 // route for the posts tab
 Route::get('/posts', 'PostController@index') ->name('posts.index')->middleware('auth');
 Route::put('/posts/{id}', 'PostController@update') ->name('posts.update')->middleware('auth');
+Route::delete('/posts/{id}', 'PostController@delete') ->name('posts.delete')->middleware('auth');
 
 //main sub and scaled activities and experiments routes
 // since the arrays of main, sub, scaled activties and experiment have the same

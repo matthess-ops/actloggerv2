@@ -18,7 +18,7 @@
     </div>
     <h5>number of logs found: {{ count($logs) }}</h5>
 
-    <div class ="mt-2">
+    <div class="mt-2">
         <h5>Main sub activities graph options:</h5>
         <div id="mainSubInputs"> </div>
 
@@ -65,32 +65,60 @@
 
     </div>
 
-    {{-- <div class="form-group">
-        <label for="activityInput">Make graph</label>
-        <input class="btn btn-primary " type="button" name="makeGraph" id="makeGraph"
-            type="submit" value="make graph">
 
-    </div> --}}
 
     <div id="canvasDiv">
-        <canvas style="min-height: 100px" id="mainSubChart"></canvas>
+        <canvas width="0" height="0" id="mainSubChart"></canvas>
 
 
     </div>
 
     <div id="canvasDiv">
-        <canvas style="min-height: 100px" id="scaledChart"></canvas>
+        <canvas width="0" height="0" id="scaledChart"></canvas>
 
 
     </div>
 
     <div id="canvasDiv">
-        <canvas style="min-height: 100px" id="fixedChart"></canvas>
+        <canvas width="0" height="0" id="fixedChart"></canvas>
 
 
     </div>
 
     <div id="fixedGraphs"></div>
+
+    <div>
+
+
+
+        <canvas width="0" height="0" id="testtes"></canvas>
+
+        @if (!empty($posts))
+            @foreach ($posts as $post)
+                <div class="card  mb-2">
+                    <div class="card-header d-flex">
+                        <div>
+                            {{ $post->title }}
+
+                        </div>
+                        <div class="ml-auto">
+                            {{\Carbon\Carbon::parse($post->created_at)->format('d-m-Y')}}
+                        </div>
+
+
+                    </div>
+                    <div class="card-body">
+                        {{ $post->content }}
+
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <h5>There are not posts for the selected date range</h5>
+        @endif
+
+
+    </div>
 
 
 @endsection

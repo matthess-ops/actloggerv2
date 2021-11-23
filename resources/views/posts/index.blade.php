@@ -10,7 +10,15 @@
 
                 <div class="card  mb-2">
                     <div class="card-header">
-                        <input type="text" class="form-control" placeholder="{{ $post->title }}" name="title">
+                        <div class="row">
+                            <div class="col-9">
+                                <input type="text" class="form-control" placeholder="{{ $post->title }}" name="title">
+
+                            </div>
+                            <div class="col-3 d-flex justify-content-end">
+                                {{\Carbon\Carbon::parse($post->created_at)->format('d-m-Y')}}
+                            </div>
+                        </div>
 
 
                     </div>
@@ -20,13 +28,20 @@
                             <textarea name="content" placeholder="{{ $post->content }}" class="form-control"
                                 rows="3"></textarea>
                             {{-- <input name="save" id="save" class="btn btn-primary mt-1" type="button" value="save"> --}}
+                        <div class="d-flex justify-content-start">
                             <button type="submit" class="btn btn-primary mt-1">save</button>
+                        </form>
+                        <form action="{{ route('posts.delete', ['id' => $post->id]) }}" method="POST">
+                            @csrf
+                            {{ method_field('delete') }}
+                            <button type="submit" class="btn btn-primary mt-1 ml-1">delete</button>
 
+                        </form>
+                    </div>
                         </div>
 
                     </div>
                 </div>
-            </form>
         @endforeach
     </div>
 

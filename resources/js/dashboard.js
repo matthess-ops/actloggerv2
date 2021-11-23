@@ -1,5 +1,6 @@
 import moment from 'moment';
 import Chart from "chart.js/auto";
+import { floor } from 'lodash';
 
 
 const colorScheme = [
@@ -107,7 +108,7 @@ const makeMainSubCountArray = (mainSubIds) => {
 const calcAddLogTime = (matrix, logs) => {
     logs.forEach(log => {
         matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]] =
-        matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]]+ log["elapsed_time"]
+        matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]]+ floor(log["elapsed_time"]/60)
 
     });
     return matrix
@@ -175,8 +176,12 @@ const makeGraph = (columns, labels) => {
             plugins: {
               title: {
                 display: true,
-                text: 'Chart.js Bar Chart - Stacked'
+                text: 'Main/sub activity statisticss'
               },
+            },
+            tooltips: {
+                // Overrides the global setting
+                mode: 'label'
             },
             responsive: true,
             scales: {
@@ -184,9 +189,14 @@ const makeGraph = (columns, labels) => {
                 stacked: true,
               },
               y: {
-                stacked: true
-              }
-            }
+                stacked: true,
+
+
+              },
+
+            },
+
+
           }
     });
 

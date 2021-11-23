@@ -1,5 +1,6 @@
 import moment from 'moment';
-import Chart from "chart.js/auto";
+// import Chart from "chart.js/auto";
+import Chart from 'chart.js/auto'
 import { arrayExpression } from '@babel/types';
 import { data } from 'jquery';
 
@@ -614,6 +615,16 @@ const makeScaledDatasets = (inputRows) => {
     return data
 }
 
+
+const footer = (tooltipItems) => {
+    let sum = 0;
+
+    tooltipItems.forEach(function(tooltipItem) {
+      sum += tooltipItem.parsed.y;
+    });
+    return 'Sum: ' + sum;
+  };
+
 const makeGraph = (lineData, labels,canvasId,text) => {
     document.getElementById(canvasId).remove() // remove the previous chart/canvas, because chartjs prevent overriding previouly made charts
 
@@ -637,7 +648,12 @@ const makeGraph = (lineData, labels,canvasId,text) => {
                 title: {
                     display: true,
                     text: text
-                }
+                },
+                tooltip: {
+                    callbacks: {
+                      footer: footer,
+                    }
+                  }
             }
         },
     });
@@ -662,8 +678,8 @@ const createCanvas = (inputRows) =>{
 
 
         let canvas = document.createElement('canvas');
-        canvas.setAttribute("style","min-height: 100px")
-        canvas.setAttribute("style","min-width: 100px")
+        // canvas.setAttribute("style","min-height: 100px")
+        // canvas.setAttribute("style","min-width: 100px")
 
         canvas.setAttribute("style","background-color: red: red")
 
