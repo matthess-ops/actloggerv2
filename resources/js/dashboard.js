@@ -162,6 +162,17 @@ const generateGraphData = (matrix,colors,subActivitiesData)=>
 }
 
 // create the graph
+const footer = (tooltipItems) => {
+    let sum = 0;
+
+    tooltipItems.forEach(function(tooltipItem) {
+      sum += tooltipItem.parsed.y;
+    });
+    return 'Total: ' + sum;
+  };
+
+
+
 const makeGraph = (columns, labels) => {
     var ctx = document.getElementById("chart");
 
@@ -178,12 +189,16 @@ const makeGraph = (columns, labels) => {
                 display: true,
                 text: 'Main/sub activity statisticss'
               },
+              tooltip: {
+                callbacks: {
+                    footer: footer,
+                }
+              },
+
             },
-            tooltips: {
-                // Overrides the global setting
-                mode: 'label'
-            },
+
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
               x: {
                 stacked: true,

@@ -27,12 +27,6 @@ class LogController extends Controller
             $logsToday = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->orderBy('start_time', 'asc')->get()->toArray();
             $timer = Timer::find($userID);
             $dateLogs = Carbon::now()->format('Y-m-d');
-            // $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
-            // $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
-            // $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
-            // $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
-            // $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
-
 
             return view('logs.index', compact('logsToday','timer','dateLogs'));
         }else{

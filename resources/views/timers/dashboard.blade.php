@@ -18,7 +18,7 @@
 
             <div class="form-group row d-flex justify-content-between">
 
-                    <h3 id="timerH3">00:00</h3>
+                <h3 id="timerH3">00:00</h3>
 
 
 
@@ -113,7 +113,7 @@
                     @endphp
                     <div class="form-group row d-flex justify-content-between">
                         <label class="font-weight-bold"
-                            for="scaled_activity_id&{{ $scaledActivity['id'] }}">{{($loop->index+1).": ". $scaledActivity['name'] }}</label>
+                            for="scaled_activity_id&{{ $scaledActivity['id'] }}">{{ $loop->index + 1 . ': ' . $scaledActivity['name'] }}</label>
                         <select id="scaled_activity_id&{{ $scaledActivity['id'] }}" class="form-control"
                             name="scaled_activity_id&{{ $scaledActivity['id'] }}">
                             @for ($i = 0; $i < 11; $i++)
@@ -152,7 +152,8 @@
                         }
                     @endphp
                     <div class="form-group row d-flex justify-content-between">
-                        <label class="font-weight-bold" for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ ($loop->index+1).": ".  $fixedActivity['name'] }}</label>
+                        <label class="font-weight-bold"
+                            for="fixed_activity_id&{{ $fixedActivity['id'] }}">{{ $loop->index + 1 . ': ' . $fixedActivity['name'] }}</label>
                         <select id="fixed_activity_id&{{ $fixedActivity['id'] }}" class="form-control"
                             name="fixed_activity_id&{{ $fixedActivity['id'] }}">
 
@@ -184,10 +185,41 @@
         </form>
 
 
+        <div style="min-height: 350px">
+            <canvas id="chart"></canvas>
+
+
+        </div>
+
         <div>
-            <canvas style="min-height: 100px" id="chart"></canvas>
 
+<h5 class="mt-2">Create post</h5>
+            <form action="{{ route('posts.store') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="my-input">Title:</label>
+                    <input id="my-input" class="form-control" type="text" name="title">
+                    @error('title')
+                        <div class="alert alert-danger">{{ $message }}</div>
 
+                    @enderror
+
+                </div>
+
+                <div class="form-group">
+                    <label for="my-input">Content:</label>
+                    <textarea name="content" class="form-control"
+                        rows="3"></textarea>
+
+                        @error('content')
+                        <div class="alert alert-danger">{{ $message }}</div>
+
+                    @enderror
+
+                </div>
+                <button type="submit" class="btn btn-primary mt-1 ml-1">Save</button>
+
+            </form>
         </div>
 
     </div>

@@ -1,7 +1,6 @@
 @extends('layouts.navbar')
 
 @section('content')
-    <h1 >Search for date {{$dateLogs}} </h1>
 
     <div class="mb-3">
     <form method="GET" action="{{ route('logs.index') }}" class="form-inline my-2 my-lg-0">

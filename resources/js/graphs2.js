@@ -587,7 +587,8 @@ const makeMainSubDataSets = (inputRows) => {
         const temp = {
             label: inputRow["mainId"]["text"]+" "+inputRow["subId"]["text"]+" "+inputRow["optionId"]["text"],
             data:inputRow.calculatedLineData,
-            borderColor: colorScheme[index],
+            backgroundColor: colorScheme[index],
+            borderColor:colorScheme[index],
         }
         console.log(temp)
         data.push(temp)
@@ -608,21 +609,21 @@ const makeScaledDatasets = (inputRows) => {
         const temp = {
             label: inputRow["scaledId"]["text"],
             data:inputRow.calculatedLineData,
-            borderColor: colorScheme[index],
-        }
+            backgroundColor: colorScheme[index],
+            borderColor:colorScheme[index], }
         data.push(temp)
     });
     return data
 }
 
-
+// niet nodig
 const footer = (tooltipItems) => {
     let sum = 0;
 
     tooltipItems.forEach(function(tooltipItem) {
       sum += tooltipItem.parsed.y;
     });
-    return 'Sum: ' + sum;
+    return 'Total: ' + sum;
   };
 
 const makeGraph = (lineData, labels,canvasId,text) => {
@@ -641,6 +642,11 @@ const makeGraph = (lineData, labels,canvasId,text) => {
         },
         options: {
             responsive: true,
+            interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+
             plugins: {
                 legend: {
                     position: 'top',
@@ -651,10 +657,12 @@ const makeGraph = (lineData, labels,canvasId,text) => {
                 },
                 tooltip: {
                     callbacks: {
-                      footer: footer,
+                        footer: footer,
                     }
-                  }
-            }
+                  },
+
+            },
+
         },
     });
 
@@ -711,6 +719,11 @@ const barGraphFixed = (inputRows, labels) => {
                   title: {
                     display: true,
                     text: inputRow["fixedId"]["text"]
+                  },
+                  tooltip: {
+                    callbacks: {
+                        footer: footer,
+                    }
                   },
                 },
                 responsive: true,

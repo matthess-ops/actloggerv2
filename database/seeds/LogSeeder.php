@@ -68,7 +68,7 @@ class LogSeeder extends Seeder
         $stopTime = Carbon::now();
 
     for ($userCount = 1; $userCount < 2; $userCount++) {
-        for ($postCount = 0; $postCount < 1000; $postCount++) {
+        for ($postCount = 0; $postCount < 100 ; $postCount++) {
             $startTime =$startTime->addMinutes(20);
             $stopTime =$startTime->addMinutes(10);
 

@@ -93,6 +93,8 @@
 
         <canvas width="0" height="0" id="testtes"></canvas>
 
+        <h5>Posts</h5>
+
         @if (!empty($posts))
             @foreach ($posts as $post)
                 <div class="card  mb-2">
