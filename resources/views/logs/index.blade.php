@@ -26,11 +26,11 @@
     <div class="border mb-3 p-2">
 
     <h4>Start logs vandaag</h4>
-    <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
+    {{-- <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
         @csrf
 
     <button type="submit" class="btn btn-primary">create log</button>
-        </form>
+        </form> --}}
         </div>
     @endif
     @foreach ($logsToday as $log)
@@ -41,13 +41,14 @@
                     <h5>Log: {{ $loop->index }}</h5>
                 </div> --}}
                 {{-- {{dd($log)}} --}}
+                <h5>logid {{$log['id']}}</h5>
                 <div class="font-weight-bold h5">
                      {{ \Carbon\Carbon::parse($log['start_time'])->format('h:i') }} : Start tijd
                 </div>
 
 
                 <div>
-                    Duratie (min): {{ date('H:i', mktime(0, $log['elapsed_time'] / 60)) }}
+                    Duratie (min): {{ date('H:i', mktime(0, $log['elapsed_time'])) }}
                 </div>
                 <div>
                     @foreach ($timer->main_activities as $main_activity)
@@ -93,7 +94,7 @@
                         @foreach ($timer->scaled_activities as $timerScaledActivity)
                             @if ($timerScaledActivity['id'] == $logScaledActivity['id'])
                                 <div>
-                                    <div>{{$timerScaledActivity['name'].":".$logScaledActivity['score']}}</div>
+                                    <div>{{$timerScaledActivity['name'].": ".$logScaledActivity['score']}}</div>
 
 
 
@@ -121,7 +122,7 @@
 
                                         @if ($timerOption['id'] == $logFixedActivity['option_id'])
                                         <div>
-                                            {{$timerFixedActivity['name'].":". $timerOption['name']}}
+                                            {{$timerFixedActivity['name'].": ". $timerOption['name']}}
                                         </div>
                                         @endif
 
@@ -175,8 +176,9 @@
                     {{ \Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60 }}
                      min
                 </h5>
-
-                <form action="{{route('logs.create',['elapsedtime'=>\Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60,'starttime'=>$log['stop_time']])}}" method="GET">
+                {{-- $logBeforeId,$logBehindId --}}
+                {{-- <form action="{{route('logs.create',['elapsedtime'=>\Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60,'starttime'=>$log['stop_time']])}}" method="GET"> --}}
+                    <form action="{{ route('logs.createMiddleLog',['logBeforeId' => $logsToday[$loop->index]["id"],'logBehindId' => $logsToday[$loop->index + 1]["id"]])  }}" method="GET">
                     @csrf
 
                 <button type="submit" class="btn btn-primary">create log</button>
@@ -199,11 +201,11 @@
     <div class="border mb-3 p-2">
 
     <h4>Einde logs vandaag</h4>
-    <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
+    {{-- <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
         @csrf
-
+        <h1>{{print_r($logsToday[count($logsToday)-1]["stop_time"],true)}}</h1>
     <button type="submit" class="btn btn-primary">create log</button>
-        </form>
+        </form> --}}
         </div>
     @endif
 

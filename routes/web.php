@@ -36,6 +36,11 @@ Route::put('/logs/{id}', 'LogController@update') ->name('logs.update')->middlewa
 Route::get('/logs/{elapsedtime}/{starttime}/create', 'LogController@create') ->name('logs.create')->middleware('auth');
 Route::post('/logs', 'LogController@store') ->name('logs.store')->middleware('auth');
 Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middleware('auth');
+Route::get('/logs/{logBeforeId}/{logBehindId}/createMiddleLog', 'LogController@createMiddleLog') ->name('logs.createMiddleLog')->middleware('auth');
+Route::post('/logs', 'LogController@storeMiddleLog') ->name('logs.storeMiddleLog')->middleware('auth');
+
+
+
 
 //Post routes
 // route for the posts tab

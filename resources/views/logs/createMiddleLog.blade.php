@@ -2,7 +2,7 @@
 
 @section('content')
 
-   <form action="{{route('logs.store')}}" method="POST">
+   <form action="{{route('logs.storeMiddleLog')}}" method="POST">
     @csrf
 
     <div class="form-group row d-flex justify-content-between">
@@ -17,7 +17,7 @@
 
     <div class="form-group row d-flex justify-content-between">
             <label for="elapsedTime">Log duration (mins)</label>
-            <input name="log_duration" type="number" class="form-control" id="elapsedTime" value="{{$timerBetweenLogs}}">
+            <input name="log_duration" type="number" class="form-control" id="elapsedTime" max="{{$timerBetweenLogs}}" value="{{$timerBetweenLogs}}">
     </div>
 
 

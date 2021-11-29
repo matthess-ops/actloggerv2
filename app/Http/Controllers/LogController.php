@@ -82,7 +82,7 @@ class LogController extends Controller
         $newLog->stop_time = Carbon::parse($newLog->start_time)->addMinutes($request->input('log_duration'));
         $newLog->created_at = Carbon::now();
         $newLog->updated_at = Carbon::now();
-        $newLog->elapsed_time = $request->input('log_duration')*60;
+        $newLog->elapsed_time = $request->input('log_duration');
         $newLog->log =
         [
             "main_activity_id" => $request->main_activity,
@@ -106,9 +106,6 @@ class LogController extends Controller
     public function create($elapsedtime,$starttime){
         error_log("elapsed and startime ".$elapsedtime." ".$starttime);
         $userID = Auth::id();
-
-
-
         $timer = Timer::find($userID);
         $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
         $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
@@ -120,24 +117,50 @@ class LogController extends Controller
     }
 
 
+    public function createMiddleLog($logBeforeId,$logBehindId){
+        error_log("logbefore ".$logBeforeId." logbehind ".$logBehindId);
+        $logBefore = Log::find($logBeforeId);
+        $logBehind = Log::find($logBehindId);
+        $elapsedtime =round(\Carbon\Carbon::parse($logBehind['start_time'])->diffInMinutes(\Carbon\Carbon::parse($logBefore['stop_time'])),0);
+        error_log("elapsed time ".$elapsedtime);
+        $userID = Auth::id();
+        $timer = Timer::find($userID);
+        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+
+        return view("logs.createMiddleLog",["timerBetweenLogs"=>$elapsedtime,"timer"=>$timer,"logStart"=>$logBefore['stop_time'],"logBeforeId"=>$logBefore['id']]);
+
+
+    }
+
+
     // Route::post('/logs', 'LogController@store') ->name('log.store')->middleware('auth');
     // validate request data
     // create a new log and add all request data
     // redirec to log.index
-    public function store(Request $request){
+    public function storeMiddleLog(Request $request){
 
         // error_log("checkd ".$request->main_activity);
         // error_log("checkd ".$request->input('main_activity'));
         // dd(Carbon::parse($request->input('start_time'))." combinded ".Carbon::parse($request->input('start_time'))->addMinutes($request->input('log_duration')));
-        // dd($request->input('start_time'));
-        // dd(Carbon::parse($request->input('start_time')));
+        // error_log("asdfasdf ".$request->input('logBeforeId'));
+        $logBefore = Log::find($request->input('logBeforeId'));
+        error_log("log beforee end time ".$logBefore['stop_time']);
+        $asdfas = Carbon::parse($logBefore['stop_time'])->addMinutes($request->input('log_duration'));
+        error_log("stopTime  ".$asdfas);
+
+
+
         $newLog = new Log;
         $newLog->user_id = Auth::id();
-        $newLog->start_time = Carbon::parse($request->input('start_time'));
-        $newLog->stop_time = Carbon::parse($request->input('start_time'))->addMinutes($request->input('log_duration'));
+        $newLog->start_time = Carbon::parse($logBefore['stop_time']);
+        $newLog->stop_time = Carbon::parse($logBefore['stop_time'])->addMinutes($request->input('log_duration'));
         $newLog->created_at = Carbon::now();
         $newLog->updated_at = Carbon::now();
-        $newLog->elapsed_time = $request->input('log_duration')*60;
+        $newLog->elapsed_time = $request->input('log_duration');
         $newLog->log =
         [
             "main_activity_id" => $request->main_activity,
@@ -149,7 +172,7 @@ class LogController extends Controller
 
         ];
 
-
+        error_log("starttime ".$newLog->start_time." stoptiome ".$newLog->stop_time." elapsed ".$newLog->elapsed_time);
         $newLog->save();
         return redirect()->route('logs.index');
 

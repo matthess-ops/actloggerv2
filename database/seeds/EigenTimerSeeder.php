@@ -57,7 +57,7 @@ class EigenTimerSeeder extends Seeder
             'scaled_activities' => json_encode([
                 ["id" => "1", "name" => "Pijn level", "active" => true, "score" => 1],
                 ["id" => "2", "name" => "Energie level", "active" => true, "score" => 1],
-                ["id" => "3", "name" => "Etress level", "active" => true, "score" => 1],
+                ["id" => "3", "name" => "Stress level", "active" => true, "score" => 1],
                 ["id" => "4", "name" => "Blij level", "active" => true, "score" => 1],
                 ["id" => "5", "name" => "Frustratie level", "active" => true, "score" => 1],
                 ["id" => "6", "name" => "Bewegings level", "active" => true, "score" => 1],
@@ -107,10 +107,19 @@ class EigenTimerSeeder extends Seeder
                 "experiment_id" => "1",
                 "scaled_activities_ids" => [
                     ["id" => "1", "score" => 1],
+                    ["id" => "2", "score" => 1],
+                    ["id" => "3", "score" => 1],
+                    ["id" => "4", "score" => 1],
+                    ["id" => "5", "score" => 1],
+                    ["id" => "6", "score" => 1],
+
+
 
                 ],
                 "fixed_activities_ids" => [
                     ["id" => "1", "option_id" => 1],
+                    ["id" => "2", "option_id" => 1],
+                    ["id" => "3", "option_id" => 1],
 
 
                 ],
@@ -123,11 +132,16 @@ class EigenTimerSeeder extends Seeder
             'selected_experiment' => '1',
             'selected_scaled_activities' => json_encode([
                 ["id" => "1", "score" => 1],
-
+                ["id" => "2", "score" => 1],
+                ["id" => "3", "score" => 1],
+                ["id" => "4", "score" => 1],
+                ["id" => "5", "score" => 1],
+                ["id" => "6", "score" => 1],
             ]),
             'selected_fixed_activities' => json_encode([
                 ["id" => "1", "option_id" => 1],
-
+                ["id" => "2", "option_id" => 1],
+                ["id" => "3", "option_id" => 1],
             ]),
 
         ]);

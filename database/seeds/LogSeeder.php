@@ -13,8 +13,8 @@ class LogSeeder extends Seeder
     public function run()
     {
 
-        // $this->LogsDateSelector();
-        $this->defaultLogs();
+        $this->LogsDateSelector();
+        // $this->defaultLogs();
     }
 
 
@@ -34,7 +34,7 @@ class LogSeeder extends Seeder
                 'stop_time' => Carbon::parse( $datePair[1]),
                 'created_at' => Carbon::parse( $datePair[0]),
                 'updated_at' => Carbon::parse( $datePair[0]),
-                'elapsed_time'=>    Carbon::parse($datePair[1])->diffInSeconds(Carbon::parse($datePair[0])),
+                'elapsed_time'=>    Carbon::parse($datePair[1])->diffInMinutes(Carbon::parse($datePair[0])),
                 'log' => json_encode([
                     "main_activity_id"=> "1",
                     "sub_activity_id"=> "3" ,

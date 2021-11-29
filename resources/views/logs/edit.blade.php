@@ -19,7 +19,7 @@
         <div class="form-group row d-flex justify-content-between">
             <label for="elapsedTime">Log duration (mins)</label>
             <input name="log_duration" type="number" class="form-control" id="elapsedTime"
-                value="{{ \Carbon\Carbon::parse($log->stop_time)->diffInSeconds(\Carbon\Carbon::parse($log->start_time)) / 60 }}">
+                value="{{ \Carbon\Carbon::parse($log->stop_time)->diffinMinutes(\Carbon\Carbon::parse($log->start_time)) }}">
         </div>
 
 

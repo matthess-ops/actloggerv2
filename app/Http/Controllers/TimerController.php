@@ -298,7 +298,7 @@ class TimerController extends Controller
             $newLog->stop_time = Carbon::now();
             $newLog->created_at = Carbon::now();
             $newLog->updated_at = Carbon::now();
-            $newLog->elapsed_time = Carbon::parse($timer->start_time)->diffInSeconds($newLog->stop_time);
+            $newLog->elapsed_time = Carbon::parse($timer->start_time)->diffInMinutes($newLog->stop_time);
             $newLog->log = $timer->previous_log;
             $newLog->save();
 
