@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            LogSeeder::class,
-            PostSeeder::class,
-            TimerSeeder::class,
+            // LogSeeder::class,
+            // PostSeeder::class,
+            EigenTimerSeeder::class,
             UserSeeder::class,
 
         ]);    }

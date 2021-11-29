@@ -95,7 +95,7 @@
 
         <h5>Posts</h5>
 
-        @if (!empty($posts))
+        @if ($posts->isNotEmpty())
             @foreach ($posts as $post)
                 <div class="card  mb-2">
                     <div class="card-header d-flex">
