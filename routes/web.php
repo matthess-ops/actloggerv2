@@ -40,6 +40,14 @@ Route::get('/logs/{logBeforeId}/{logBehindId}/createMiddleLog', 'LogController@c
 Route::post('/logs', 'LogController@storeMiddleLog') ->name('logs.storeMiddleLog')->middleware('auth');
 
 
+Route::get('/logs/{logBehindId}/createBeforeLog', 'LogController@createBeforeLog') ->name('logs.createBeforeLog')->middleware('auth');
+Route::post('/logs', 'LogController@storeBeforeLog') ->name('logs.storeBeforeLog')->middleware('auth');
+
+
+Route::get('/logs/{logBeforeId}/createBehindLog', 'LogController@createBehindLog') ->name('logs.createBehindLog')->middleware('auth');
+Route::post('/logs', 'LogController@storeBehindLog') ->name('logs.storeBehindLog')->middleware('auth');
+
+
 
 
 //Post routes

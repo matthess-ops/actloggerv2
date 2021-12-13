@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="mb-3">
     <form method="GET" action="{{ route('logs.index') }}" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="date" aria-label="Search" name="date" value="{{$dateLogs}}">
@@ -11,7 +12,7 @@
 
 
 
-
+    {{-- {{dd($logsToday)}} --}}
     @if (empty($logsToday))
         <h4>Er zijn geen logs voor vandaag</h4>
         <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>\Carbon\Carbon::now()])}}" method="GET">
@@ -26,11 +27,11 @@
     <div class="border mb-3 p-2">
 
     <h4>Start logs vandaag</h4>
-    {{-- <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
+    <form action="{{route('logs.createBeforeLog',['logBehindId'=>$logsToday[0]["id"]])}}" method="GET">
         @csrf
 
     <button type="submit" class="btn btn-primary">create log</button>
-        </form> --}}
+        </form>
         </div>
     @endif
     @foreach ($logsToday as $log)
@@ -201,11 +202,12 @@
     <div class="border mb-3 p-2">
 
     <h4>Einde logs vandaag</h4>
-    {{-- <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>$logsToday[count($logsToday)-1]["stop_time"]])}}" method="GET">
+    <form action="{{route('logs.createBehindLog',['logBeforeId'=>$logsToday[count($logsToday)-1]["id"]])}}" method="GET">
         @csrf
-        <h1>{{print_r($logsToday[count($logsToday)-1]["stop_time"],true)}}</h1>
+
     <button type="submit" class="btn btn-primary">create log</button>
-        </form> --}}
+        </form>
+        </div>
         </div>
     @endif
 
