@@ -92,20 +92,18 @@ class TimerController extends Controller
         $logs = Log::where("user_id", "=", $userID)->whereDate('start_time', Carbon::now())->get()->toArray();
 
 
-        // $mainActivities = $this->orderForCount($this->filterForActive($timer->main_activities));
-        // $subActivities = $this->orderForCount($this->filterForActive($timer->sub_activities));
-        // $fixedActivities = $this->orderFixedActivitesOptionsForCount($this->filterFixedOptionsForActive($this->filterForActive($timer->fixed_activities)));
-        // $scaledActivities = $this->orderForScore($this->filterForActive($timer->scaled_activities));
-        // $experiments = $this->orderForCount($this->filterForActive($timer->experiments));
+        if($timer ===null){
+            // has no records
+        }
+        else{
+            $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+            $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+            $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+            $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+            $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+        }
 
 
-        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
-        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
-        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
-        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
-        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
-
-        error_log(print_r($timer->main_activities,true));
 
         return view('timers.dashboard', compact('timer'), compact('logs'));
     }
@@ -122,11 +120,17 @@ class TimerController extends Controller
     public function config()
     {
         $timer = Timer::find(Auth::id());
+
+        if($timer ===null){
+            // has no records
+        }
+        else{
         $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
         $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
         $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
         $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
         $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+        }
         return view('timers.config', compact('timer'));
     }
 

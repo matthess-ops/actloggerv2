@@ -29,7 +29,7 @@ class LogController extends Controller
             $timer = Timer::find($userID);
             $dateLogs = Carbon::now()->format('Y-m-d');
             error_log("lets god");
-            error_log(print_r($logsToday));
+            // error_log(print_r($logsToday));
 
             return view('logs.index', compact('logsToday','timer','dateLogs'));
         }else{
@@ -131,36 +131,38 @@ class LogController extends Controller
         $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
         $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
 
-        return view("logs.createBeforeLog",["timer"=>$timer,"logBeforeId"=>$logBefore['id'],"logStart"=>$logBefore['end_time']]);
+        return view("logs.createBehindLog",["timer"=>$timer,"logBeforeId"=>$logBefore['id'],"logStart"=>$logBefore['end_time']]);
 
 
     }
 
-    // public function storeBeforeLog(Request $request){
+    public function storeBehindLog(Request $request){
 
-    //     $logBehind = Log::find($request->input('logBehindId'));
-    //     $newLog = new Log;
-    //     $newLog->user_id = Auth::id();
-    //     $newLog->start_time = Carbon::parse($logBehind['start_time'])->subMinutes($request->input('log_duration'));
-    //     $newLog->stop_time = Carbon::parse($logBehind['start_time']);
-    //     $newLog->created_at = Carbon::now();
-    //     $newLog->updated_at = Carbon::now();
-    //     $newLog->elapsed_time = $request->input('log_duration');
-    //     $newLog->log =
-    //     [
-    //         "main_activity_id" => $request->main_activity,
-    //         "sub_activity_id" => $request->sub_activity,
-    //         "scaled_activities_ids" => TimerHelpers::formatRequestScaledActivities($request),
-    //         "fixed_activities_ids" => TimerHelpers::formatRequestFixedActivities($request),
-    //         "experiment_id" => $request->experiment,
+        $logBefore = Log::find($request->input('logBeforeId'));
+        $newLog = new Log;
+        $newLog->user_id = Auth::id();
+        $newLog->stop_time = Carbon::parse($logBefore['start_time'])->addMinutes($request->input('log_duration'));
+        $newLog->start_time = Carbon::parse($logBefore['start_time']);
+        $newLog->created_at = Carbon::now();
+        $newLog->updated_at = Carbon::now();
+        $newLog->elapsed_time = $request->input('log_duration');
+        $newLog->log =
+        [
+            "main_activity_id" => $request->main_activity,
+            "sub_activity_id" => $request->sub_activity,
+            "scaled_activities_ids" => TimerHelpers::formatRequestScaledActivities($request),
+            "fixed_activities_ids" => TimerHelpers::formatRequestFixedActivities($request),
+            "experiment_id" => $request->experiment,
 
 
-    //     ];
+        ];
 
-    //     $newLog->save();
-    //     return redirect()->route('logs.index');
+        $newLog->save();
+        return redirect()->route('logs.index');
 
-    // }
+    }
+
+
 
     public function createBeforeLog($logBehindId){
         error_log("create before log logbehinID = ".$logBehindId);

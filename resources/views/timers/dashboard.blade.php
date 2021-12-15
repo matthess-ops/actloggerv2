@@ -3,13 +3,17 @@
 @section('content')
 
     <script src="{{ asset('js/dashboard.js') }}" defer></script>
+    @if ($timer != null)
     <script>
         const startTime = @json($timer->start_time);
         const timerRunning = @json($timer->timer_running);
         const logs = @json($logs);
         const timerData = @json($timer);
     </script>
+    @endif
+
     <div class="container">
+        @if ($timer != null)
 
         <form action="{{ route('timer.startstop') }}" method="POST">
             @csrf
@@ -185,6 +189,9 @@
         </form>
 
 
+
+
+
         <div style="min-height: 350px">
             <canvas id="chart"></canvas>
 
@@ -223,5 +230,9 @@
         </div>
 
     </div>
+
+    @else
+    <h3>No activities found, go to config to enter activities.</h3>
+@endif
 
 @endsection

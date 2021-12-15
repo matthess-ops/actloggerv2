@@ -159,7 +159,7 @@
     {{-- <input name="start_time" type="hidden" value=        {{$logStart}}
     > --}}
 
-    <input name="logBehindId" type="hidden" value={{$logBehindId}}
+    <input name="logBeforeId" type="hidden" value={{$logBeforeId}}
     >
 <button type="submit" class="btn btn-primary">store log</button>
     </form>

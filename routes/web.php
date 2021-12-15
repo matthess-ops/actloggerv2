@@ -15,15 +15,105 @@ use App\Timer;
 |
 */
 
-Route::get('/', function () {
-    return "test";
-    }
-)->name('test')->middleware('auth');
+
+Route::get('/setup',function(){
+    // $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/setup/storage/app/public';
+    // $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+    // symlink($targetFolder, $linkFolder);
+    Artisan::call('Session::flush()');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('migrate:refresh --seed', []);
+
+
+});
+
+// Route::get('/symlink', function(){
+//     $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/setup/storage/app/public';
+//     $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+//     symlink($targetFolder, $linkFolder);
+//     return 'success';
+// });
+
+// //Clear Cache facade value:
+// Route::get('/clear', function() {
+//     $exitCode = Artisan::call('cache:clear');
+//     $exitCodea = Artisan::call('route:clear');
+//     $exitCodeb = Artisan::call('config:clear');
+//     $exitCodec = Artisan::call('view:clear');
+
+//     return '<h1>Cache facade value cleared</h1>';
+// });
+
+
+// Route::get('clearsession', function(Request $request){
+//     $request->session()->flush();
+//     return '<h1>clear session data</h1>';
+// });
+
+// Route::get('migrate', function(){
+//     Artisan::call('migrate:refresh --seed', []);
+//     return '<h1>Symlink created</h1>';
+// });
+
+// Route::get('symlink', function(){
+//     Artisan::call('storage:link', []);
+//     return '<h1>Symlink created</h1>';
+// });
+
+// //Clear Cache facade value:
+// Route::get('/clear-cache', function() {
+//     $exitCode = Artisan::call('cache:clear');
+//     return '<h1>Cache facade value cleared</h1>';
+// });
+
+// //Reoptimized class loader:
+// Route::get('/optimize', function() {
+//     $exitCode = Artisan::call('optimize');
+//     return '<h1>Reoptimized class loader</h1>';
+// });
+
+// //Route cache:
+// Route::get('/route-cache', function() {
+//     $exitCode = Artisan::call('route:cache');
+//     return '<h1>Routes cached</h1>';
+// });
+
+// //Clear Route cache:
+// Route::get('/route-clear', function() {
+//     $exitCode = Artisan::call('route:clear');
+//     return '<h1>Route cache cleared</h1>';
+// });
+
+// //Clear View cache:
+// Route::get('/view-clear', function() {
+//     $exitCode = Artisan::call('view:clear');
+//     return '<h1>View cache cleared</h1>';
+// });
+
+// //Clear Config cache:
+// Route::get('/config-cache', function() {
+//     $exitCode = Artisan::call('config:cache');
+//     return '<h1>Clear Config cleared</h1>';
+// });
+
+
+
+
+
+
+
+// Route::get('/', function () {
+//     return "test";
+//     }
+// )->name('test')->middleware('auth');
 
 
 //Timer routes
 // route for dashboard tab
-Route::get('/dashboard', 'TimerController@dashboard') ->name('timers.dashboard')->middleware('auth');
+Route::get('/', 'TimerController@dashboard') ->name('timers.dashboard')->middleware('auth');
 // route for config tab
 Route::get('/config', 'TimerController@config') ->name('timers.config')->middleware('auth');
 // route for starting and stopping the timer
@@ -36,9 +126,12 @@ Route::put('/logs/{id}', 'LogController@update') ->name('logs.update')->middlewa
 Route::get('/logs/{elapsedtime}/{starttime}/create', 'LogController@create') ->name('logs.create')->middleware('auth');
 Route::post('/logs', 'LogController@store') ->name('logs.store')->middleware('auth');
 Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middleware('auth');
+
+
 Route::get('/logs/{logBeforeId}/{logBehindId}/createMiddleLog', 'LogController@createMiddleLog') ->name('logs.createMiddleLog')->middleware('auth');
 Route::post('/logs', 'LogController@storeMiddleLog') ->name('logs.storeMiddleLog')->middleware('auth');
 
+// <form action="{{route('logs.createBeforeLog',['logBehindId'=>$logsToday[0]["id"]])}}" method="GET">
 
 Route::get('/logs/{logBehindId}/createBeforeLog', 'LogController@createBeforeLog') ->name('logs.createBeforeLog')->middleware('auth');
 Route::post('/logs', 'LogController@storeBeforeLog') ->name('logs.storeBeforeLog')->middleware('auth');

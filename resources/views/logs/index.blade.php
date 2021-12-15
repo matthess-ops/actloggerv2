@@ -44,7 +44,7 @@
                 {{-- {{dd($log)}} --}}
                 <h5>logid {{$log['id']}}</h5>
                 <div class="font-weight-bold h5">
-                     {{ \Carbon\Carbon::parse($log['start_time'])->format('h:i') }} : Start tijd
+                     {{ \Carbon\Carbon::parse($log['start_time'])->format('H:i') }} : Start tijd
                 </div>
 
 
@@ -158,7 +158,7 @@
                     </div>
 
                     <div class="font-weight-bold h5">
-                        {{ \Carbon\Carbon::parse($log['stop_time'])->format('h:i') }} : Stop time
+                        {{ \Carbon\Carbon::parse($log['stop_time'])->format('H:i') }} : Stop time
                    </div>
         </div>
 
