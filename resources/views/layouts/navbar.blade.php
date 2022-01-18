@@ -8,15 +8,17 @@
     <title>ActLogger</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet"> --}}
 
-
+    <script src="/js/app.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 
 </head>
 
 <body>
+
+
 
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary center">
@@ -28,7 +30,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav " style="font-size: 1.6em">
+                <div class="navbar-nav" style="font-size: 1.0em">
                     <a class="nav-item nav-link" href="{{ route('timers.dashboard') }}">Dashboard</a>
                     <a class="nav-item nav-link" href="{{ route('timers.config') }}">Config</a>
 

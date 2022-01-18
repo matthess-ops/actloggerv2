@@ -15,7 +15,7 @@
     {{-- {{dd($logsToday)}} --}}
     @if (empty($logsToday))
         <h4>Er zijn geen logs voor vandaag</h4>
-        <form action="{{route('logs.create',['elapsedtime'=>0,'starttime'=>\Carbon\Carbon::now()])}}" method="GET">
+        <form action="{{route('logs.createFloatLog',['dateIs' => $dateLogs])}}" method="GET">
             @csrf
 
         <button type="submit" class="btn btn-primary">create log</button>
@@ -42,7 +42,7 @@
                     <h5>Log: {{ $loop->index }}</h5>
                 </div> --}}
                 {{-- {{dd($log)}} --}}
-                <h5>logid {{$log['id']}}</h5>
+                <h5>DB log id: {{$log['id']}}</h5>
                 <div class="font-weight-bold h5">
                      {{ \Carbon\Carbon::parse($log['start_time'])->format('H:i') }} : Start tijd
                 </div>
@@ -174,7 +174,7 @@
 
                 <h5 class = "font-weight-bold">
                     Tijd tussen logs:
-                    {{ \Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60 }}
+                    {{floor( \Carbon\Carbon::parse($log['stop_time'])->diffInSeconds(\Carbon\Carbon::parse($logsToday[$loop->index + 1]['start_time'])) / 60) }}
                      min
                 </h5>
                 {{-- $logBeforeId,$logBehindId --}}

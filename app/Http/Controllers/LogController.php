@@ -45,7 +45,6 @@ class LogController extends Controller
             // $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
             error_log("lets god");
 
-            error_log(print_r($logsToday));
             return view('logs.index',compact('logsToday','timer','dateLogs'));
         }
 
@@ -100,7 +99,9 @@ class LogController extends Controller
 
 
         $newLog->save();
-        return redirect()->route('logs.index');
+        return redirect()->route('logs.index',['date'=>Carbon::parse($newLog->start_time)->toDateString()]);
+
+        // return redirect()->route('logs.index');
     }
 
     // Route::get('/logs/create', 'LogController@create') ->name('log.create')->middleware('auth');
@@ -141,8 +142,8 @@ class LogController extends Controller
         $logBefore = Log::find($request->input('logBeforeId'));
         $newLog = new Log;
         $newLog->user_id = Auth::id();
-        $newLog->stop_time = Carbon::parse($logBefore['start_time'])->addMinutes($request->input('log_duration'));
-        $newLog->start_time = Carbon::parse($logBefore['start_time']);
+        $newLog->stop_time = Carbon::parse($logBefore['stop_time'])->addMinutes($request->input('log_duration'));
+        $newLog->start_time = Carbon::parse($logBefore['stop_time']);
         $newLog->created_at = Carbon::now();
         $newLog->updated_at = Carbon::now();
         $newLog->elapsed_time = $request->input('log_duration');
@@ -158,9 +159,58 @@ class LogController extends Controller
         ];
 
         $newLog->save();
-        return redirect()->route('logs.index');
+        return redirect()->route('logs.index',['date'=>Carbon::parse($logBefore['stop_time'])->toDateString()]);
+
+        // return redirect()->route('logs.index');
 
     }
+
+    public function createFloatLog($dateIs){
+        $userID = Auth::id();
+        $timer = Timer::find($userID);
+        $timer->main_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->main_activities));
+        $timer->sub_activities = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->sub_activities));
+        $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
+        $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
+        $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+
+        return view("logs.createFloatLog",["timer"=>$timer,"dateIs"=>$dateIs]);
+    }
+
+
+    public function storeFloatLog(Request $request){
+
+
+        error_log("dateIS ".$request->input('dateIS')." the time ".$request->input('logStartTime'));
+
+        $startDateTime = $request->input('dateIS')." ".$request->input('logStartTime');
+        $carbonStartDateTime = Carbon::parse($startDateTime);
+        error_log("timeStampIs ".$startDateTime." carbon time ".$carbonStartDateTime);
+        $newLog = new Log;
+        $newLog->user_id = Auth::id();
+        $newLog->start_time = Carbon::parse($startDateTime);
+        $newLog->stop_time = Carbon::parse($startDateTime)->addMinutes($request->input('log_duration'));
+
+
+        $newLog->created_at = Carbon::now();
+        $newLog->updated_at = Carbon::now();
+        $newLog->elapsed_time = $request->input('log_duration');
+        $newLog->log =
+        [
+            "main_activity_id" => $request->main_activity,
+            "sub_activity_id" => $request->sub_activity,
+            "scaled_activities_ids" => TimerHelpers::formatRequestScaledActivities($request),
+            "fixed_activities_ids" => TimerHelpers::formatRequestFixedActivities($request),
+            "experiment_id" => $request->experiment,
+
+
+        ];
+
+        $newLog->save();
+        return redirect()->route('logs.index',['date'=>$startDateTime]);
+
+    }
+
 
 
 
@@ -185,6 +235,9 @@ class LogController extends Controller
         $logBehind = Log::find($request->input('logBehindId'));
         $newLog = new Log;
         $newLog->user_id = Auth::id();
+
+        error_log("store before log datetostring". Carbon::parse($logBehind['start_time'])->toDateString());
+
         $newLog->start_time = Carbon::parse($logBehind['start_time'])->subMinutes($request->input('log_duration'));
         $newLog->stop_time = Carbon::parse($logBehind['start_time']);
         $newLog->created_at = Carbon::now();
@@ -202,7 +255,9 @@ class LogController extends Controller
         ];
 
         $newLog->save();
-        return redirect()->route('logs.index');
+        return redirect()->route('logs.index',['date'=>Carbon::parse($logBehind['start_time'])->toDateString()]);
+
+        // return redirect()->route('logs.index');
 
     }
 
@@ -261,7 +316,8 @@ class LogController extends Controller
 
         error_log("starttime ".$newLog->start_time." stoptiome ".$newLog->stop_time." elapsed ".$newLog->elapsed_time);
         $newLog->save();
-        return redirect()->route('logs.index');
+        // return redirect()->route('logs.index');
+        return redirect()->route('logs.index',['date'=>Carbon::parse($logBefore['stop_time'])->toDateString()]);
 
     }
 
@@ -272,7 +328,9 @@ class LogController extends Controller
     public function delete($id){
         $log = Log::find($id);
         $log->delete();
-        return redirect()->route('logs.index');
+        return redirect()->route('logs.index',['date'=>Carbon::parse($log->start_time)->toDateString()]);
+
+        // return redirect()->route('logs.index');
 
 
     }

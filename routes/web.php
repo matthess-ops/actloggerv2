@@ -15,17 +15,23 @@ use App\Timer;
 |
 */
 
+Route::get('/test',function(){
 
-Route::get('/setup',function(){
-    // $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/setup/storage/app/public';
-    // $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
-    // symlink($targetFolder, $linkFolder);
-    Artisan::call('Session::flush()');
+
+    return 'test werkt';
+
+
+});
+
+
+Route::get('/serversetup',function(){
     Artisan::call('cache:clear');
-    Artisan::call('route:clear');
-    Artisan::call('config:clear');
-    Artisan::call('view:clear');
-    Artisan::call('migrate:refresh --seed', []);
+   Artisan::call('route:clear');
+   Artisan::call('config:clear');
+   Artisan::call('view:clear');
+   Artisan::call('migrate:refresh --seed', []);
+
+   return 'serversetup works';
 
 
 });
@@ -129,16 +135,19 @@ Route::delete('/logs/{id}', 'LogController@delete') ->name('logs.delete')->middl
 
 
 Route::get('/logs/{logBeforeId}/{logBehindId}/createMiddleLog', 'LogController@createMiddleLog') ->name('logs.createMiddleLog')->middleware('auth');
-Route::post('/logs', 'LogController@storeMiddleLog') ->name('logs.storeMiddleLog')->middleware('auth');
+Route::post('/storemiddlelog', 'LogController@storeMiddleLog') ->name('logs.storeMiddleLog')->middleware('auth');
 
-// <form action="{{route('logs.createBeforeLog',['logBehindId'=>$logsToday[0]["id"]])}}" method="GET">
 
 Route::get('/logs/{logBehindId}/createBeforeLog', 'LogController@createBeforeLog') ->name('logs.createBeforeLog')->middleware('auth');
-Route::post('/logs', 'LogController@storeBeforeLog') ->name('logs.storeBeforeLog')->middleware('auth');
+Route::post('/storebeforelog', 'LogController@storeBeforeLog') ->name('logs.storeBeforeLog')->middleware('auth');
 
 
 Route::get('/logs/{logBeforeId}/createBehindLog', 'LogController@createBehindLog') ->name('logs.createBehindLog')->middleware('auth');
-Route::post('/logs', 'LogController@storeBehindLog') ->name('logs.storeBehindLog')->middleware('auth');
+Route::post('/storebehindlog', 'LogController@storeBehindLog') ->name('logs.storeBehindLog')->middleware('auth');
+
+
+Route::get('/logs/{dateIs}createFloatLog', 'LogController@createFloatLog') ->name('logs.createFloatLog')->middleware('auth');
+Route::post('/storeFloatLog', 'LogController@storeFloatLog') ->name('logs.storeFloatLog')->middleware('auth');
 
 
 

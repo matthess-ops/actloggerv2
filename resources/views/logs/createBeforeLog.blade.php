@@ -1,7 +1,14 @@
 @extends('layouts.navbar')
 
 @section('content')
-{{-- {{route('logs.storeMiddleLog')}} --}}
+    create beforelog
+     {{-- <form action="{{route('logs.storeBeforeLog')}}" method="POST">
+    @csrf
+<button type="submit" class="btn btn-primary">store log</button>
+    </form> --}}
+
+
+
    <form action="{{route('logs.storeBeforeLog')}}" method="POST">
     @csrf
 
@@ -75,7 +82,6 @@
 
     </div>
     <div>
-        {{-- ["id"=>"1","score"=>1], --}}
         <label for="scaled_activities">Scaled Activities</label>
 
         @foreach ($timer->scaled_activities as $scaledActivity)
@@ -155,9 +161,6 @@
     </div>
 
 
-
-    {{-- <input name="start_time" type="hidden" value=        {{$logStart}}
-    > --}}
 
     <input name="logBehindId" type="hidden" value={{$logBehindId}}
     >

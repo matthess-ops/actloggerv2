@@ -227,7 +227,7 @@
                     <div class="col-6">
                         <button class="btn btn-primary m-1" type="submit" name="action" value="update_option">Rename option</button>
                         <button class="btn btn-primary m-1" type="submit" name="action" value="delete_option">Delete option</button>
-                <button class="btn btn-primary m-1" type="submit" name="action" value="add_option">Add new option</button>
+                        <button class="btn btn-primary m-1" type="submit" name="action" value="add_option">Add new option</button>
                     </div>
                 </div>
 

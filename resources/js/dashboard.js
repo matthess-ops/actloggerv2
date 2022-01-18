@@ -108,7 +108,7 @@ const makeMainSubCountArray = (mainSubIds) => {
 const calcAddLogTime = (matrix, logs) => {
     logs.forEach(log => {
         matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]] =
-        matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]]+ floor(log["elapsed_time"]/60)
+        matrix[log["log"]["sub_activity_id"]][log["log"]["main_activity_id"]]+ floor(log["elapsed_time"])
 
     });
     return matrix
