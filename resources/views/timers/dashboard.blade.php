@@ -8,7 +8,7 @@
             const startTime = @json($timer->start_time);
             const timerRunning = @json($timer->timer_running);
             const logs = @json($logs);
-            const timerData = @json($timer);
+            const timerData = @json($timerDataGraph); //timer
         </script>
     @endif
 

@@ -13,8 +13,8 @@ class LogSeeder extends Seeder
     public function run()
     {
 
-        $this->LogsDateSelector();
-        // $this->defaultLogs();
+        // $this->LogsDateSelector();
+        $this->defaultLogs();
     }
 
 
@@ -82,18 +82,18 @@ class LogSeeder extends Seeder
                 'log' => json_encode([
                     "main_activity_id"=> rand(1, 4),
                     "sub_activity_id"=> rand(1, 3) ,
-                    "experiment_id"=>"1",
+                    "experiment_id"=>1,
 
                     "scaled_activities_ids"=>[
-                      ["id"=>"1","score"=>rand(1, 10)],
-                      ["id"=>"2","score"=>rand(1, 10)],
-                      ["id"=>"3","score"=>rand(1, 10)],
-                      ["id"=>"4","score"=>rand(1, 10)],
+                      ["id"=>1,"score"=>rand(1, 10)],
+                      ["id"=>2,"score"=>rand(1, 10)],
+                      ["id"=>3,"score"=>rand(1, 10)],
+                      ["id"=>4,"score"=>rand(1, 10)],
                     ] ,
                     "fixed_activities_ids"=>[
-                        ["id"=>"1","option_id"=>rand(1, 2)],
-                        ["id"=>"2","option_id"=>rand(1, 3)],
-                        ["id"=>"3","option_id"=>rand(1, 2)],
+                        ["id"=>1,"option_id"=>rand(1, 2)],
+                        ["id"=>2,"option_id"=>rand(1, 3)],
+                        ["id"=>3,"option_id"=>rand(1, 2)],
 
                     ],
 

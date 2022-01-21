@@ -67,7 +67,6 @@ const timer = () => {
 
 timer();
 
-console.log(logs);
 
 //get all unique main activity  and sub activity ids from log data.
 
@@ -88,8 +87,6 @@ const getMainAndSubIds = (logs) => {
 const makeMainSubCountArray = (mainSubIds) => {
     const mainIds = mainSubIds[0]
     const subIds = mainSubIds[1]
-    console.log(mainIds)
-    console.log(subIds)
     let matrix = {};
     subIds.forEach(subId => {
         let temp = {}
@@ -218,9 +215,15 @@ const makeGraph = (columns, labels) => {
 }
 
 const mainSubIds = getMainAndSubIds(logs)
+console.log("mainSubIds")
+console.log(mainSubIds)
 const matrix = makeMainSubCountArray(mainSubIds)
 const labelNames =getMainActivityLabelNames(mainSubIds[0],timerData["main_activities"])
+console.log("labelnames are")
+console.log(labelNames)
 const elapsedTimeMatrix =calcAddLogTime(matrix,logs)
+console.log("elapsed time matrix is")
+console.log(elapsedTimeMatrix)
 const barData = generateGraphData(elapsedTimeMatrix,colorScheme,timerData["sub_activities"])
 
 
@@ -230,3 +233,12 @@ const barData = generateGraphData(elapsedTimeMatrix,colorScheme,timerData["sub_a
 
 makeGraph(barData, labelNames)
 
+
+
+
+
+console.log("timer data is")
+console.log(timerData)
+
+console.log("logs are")
+console.log(logs)

@@ -101,11 +101,16 @@ class TimerController extends Controller
             $timer->fixed_activities = TimerHelpers::orderFixedActivitesOptionsForCount(TimerHelpers::filterFixedOptionsForActive(TimerHelpers::filterForActive($timer->fixed_activities)));
             $timer->scaled_activities = TimerHelpers::orderForScore(TimerHelpers::filterForActive($timer->scaled_activities));
             $timer->experiments = TimerHelpers::orderForCount(TimerHelpers::filterForActive($timer->experiments));
+
+
         }
 
+        // had to make a duplicate timer data here withou orderforcount and filterforactive
+        // this is needed because else dashboard.js doesnt have all the required data if activities
+        // are deleted. Since filterforeactive will remove the activity
+        $timerDataGraph = Timer::find($userID);
 
-
-        return view('timers.dashboard', compact('timer'), compact('logs'));
+        return view('timers.dashboard', compact('timer','timerDataGraph','logs'));
     }
 
     //Route::get('/config', 'TimerController@config') ->name('timer.config')->middleware('auth');

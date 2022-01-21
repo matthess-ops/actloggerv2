@@ -252,6 +252,8 @@ const scaledMain = () => {
             const selectDataInputLogs = getLogsScaledFixedInputs(selectData)
             const selectLogsDateSeperated = seperateLogsForDates(selectDataInputLogs)
             const graphData =calculateScaledGraphData(selectLogsDateSeperated)
+            console.log("graphData scale is")
+            console.log(graphData)
             const graphDataSets = makeScaledDatasets(graphData)
             makeGraph(graphDataSets,addDayToGraphLabels(graphData[0]["dates"]),"scaledChart",'scaled activities graphs')
 
@@ -280,8 +282,7 @@ const fixedMain = () => {
             createCanvas(bargraphDataSets)
             barGraphFixed(bargraphDataSets, addDayToGraphLabels(bargraphDataSets[0]["dates"]))
 
-            console.log("bargraphDataSets")
-            console.log(bargraphDataSets)
+
 
 
 
@@ -506,8 +507,7 @@ const calculateScaledGraphData = (rowInputs)=>{
         rowInput.dateLogs.forEach(dateChunk => {
             let sumScore = 0
             dateChunk.forEach(log => {
-                // console.log("score found ",log["log"]["scaled_activities_ids"].find(element =>element["id"] ==rowInput["scaledId"]["id"] ).score)
-                sumScore =sumScore+ log["log"]["scaled_activities_ids"].find(element =>element["id"] ==rowInput["scaledId"]["id"] ).score
+                sumScore =sumScore+ parseInt(log["log"]["scaled_activities_ids"].find(element =>element["id"] ==rowInput["scaledId"]["id"] ).score)
             });
             averageScores.push(sumScore / dateChunk.length)
 
@@ -590,7 +590,6 @@ const makeMainSubDataSets = (inputRows) => {
             backgroundColor: colorScheme[index],
             borderColor:colorScheme[index],
         }
-        console.log(temp)
         data.push(temp)
     });
     return data
@@ -753,4 +752,3 @@ fixedMain()
 
 
 const newFormat = addDayToGraphLabels(["2021-11-23"])
-console.log(newFormat)
